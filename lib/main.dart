@@ -20,7 +20,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.teal,
       ),
-      home: Home(),
+      initialRoute: Home.routeName,
+      routes: {
+        Home.routeName: (context) => const Home(),
+      },
     );
   }
 }
