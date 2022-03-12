@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "324462601347",
+    "project_id": "green-app-60b64",
+    "storage_bucket": "green-app-60b64.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:324462601347:android:47f72b604cacbc483167b6",
+        "android_client_info": {
+          "package_name": "com.terp.green_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "324462601347-re04tg93g25459k8a3rr8cea477tcs0a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgFUbjGTrhjuNgSq9ggWQZgseYuvKfDwA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "324462601347-re04tg93g25459k8a3rr8cea477tcs0a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
