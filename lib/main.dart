@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:green_app/pages/add_flower_item.dart';
+import 'package:green_app/pages/edit_flower_item.dart';
+import 'package:green_app/pages/flower_grid.dart';
 import 'package:green_app/pages/home.dart';
 
 void main() async {
@@ -22,7 +25,9 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: Home.routeName,
       routes: {
-        Home.routeName: (context) => const Home(),
+        Home.routeName: (context) => Home(),
+        FlowerGrid.routeName: (context) => FlowerGrid(),
+        AddItem.routeName: (context) => AddItem(),
       },
     );
   }

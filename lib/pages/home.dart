@@ -1,11 +1,26 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:green_app/pages/flower_grid.dart';
 
-class Home extends StatelessWidget {
-  static String routeName = '/';
+import '../services/flower _item_database.dart';
 
-  const Home({Key? key}) : super(key: key);
+class Home extends StatefulWidget {
+  static const String routeName = '/';
+  Home({Key? key}) : super(key: key);
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  int _currentIndex = 0;
+  final tabs = [
+    Home(),
+    FlowerGrid(),
+    Center(child: Text('Delivery')),
+    Center(child: Text('Reviews'))
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -15,11 +30,15 @@ class Home extends StatelessWidget {
         centerTitle: true,
       ),
       body: Center(
+        // Center is a layout widget. It takes a single child and positions it
+        // in the middle of the parent.
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             ElevatedButton(
-              onPressed: (){},
+              onPressed: () {
+                Navigator.of(context).pushNamed(FlowerGrid.routeName);
+              },
               child: Text('Esa'),
             ),
             ElevatedButton(
@@ -37,7 +56,7 @@ class Home extends StatelessWidget {
           ],
         ),
       ),
+
     );
   }
-
 }
