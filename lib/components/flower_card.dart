@@ -65,6 +65,10 @@ class FlowerCard extends StatelessWidget {
                         ),
                         IconButton(
                             onPressed: () {},
+                            icon: Icon(Icons.delivery_dining_rounded, color: Colors.teal,)
+                        ),
+                        IconButton(
+                            onPressed: () {},
                             icon: Icon(Icons.comment, color: Colors.teal,)
                         ),
                       ],
