@@ -61,20 +61,16 @@ class _FlowerGridState extends State<FlowerGrid> {
         animatedIcon: AnimatedIcons.menu_home,
         children: [
           SpeedDialChild(
-            child: FloatingActionButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(AddItem.routeName);
-              },
-              child: const Icon(Icons.add),
-            ),
+            child: const Icon(Icons.add, color: Colors.teal,),
+            onTap: () {
+              Navigator.of(context).pushNamed(AddItem.routeName);
+            },
           ),
           SpeedDialChild(
-            child: FloatingActionButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(Shop.routeName);
-              },
-              child: const Icon(Icons.shopping_cart),
-            ),
+            child: const Icon(Icons.shopping_cart, color: Colors.teal,),
+            onTap: () {
+              Navigator.of(context).pushNamed(Shop.routeName);
+            },
           )
         ],
       ),
