@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:green_app/models/flower_item.dart';
+import 'package:green_app/pages/delivery_form.dart';
 import 'package:green_app/pages/edit_flower_item.dart';
 
 class FlowerCard extends StatelessWidget {
@@ -64,8 +65,14 @@ class FlowerCard extends StatelessWidget {
                             icon: Icon(Icons.add_shopping_cart, color: Colors.teal,)
                         ),
                         IconButton(
-                            onPressed: () {},
-                            icon: Icon(Icons.delivery_dining_rounded, color: Colors.teal,)
+                            onPressed: () {
+                              Navigator.push(context,
+                                MaterialPageRoute(
+                                  builder: (context) => DeliveryForm(item: flower),
+                                )
+                              );
+                            },
+                              icon: Icon(Icons.delivery_dining_rounded, color: Colors.teal,)
                         ),
                         IconButton(
                             onPressed: () {},

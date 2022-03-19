@@ -1,8 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:green_app/pages/add_flower_item.dart';
-import 'package:green_app/pages/edit_flower_item.dart';
+import 'package:green_app/pages/delivery_history.dart';
 import 'package:green_app/pages/flower_grid.dart';
 import 'package:green_app/pages/home.dart';
 
@@ -28,6 +27,7 @@ class MyApp extends StatelessWidget {
         Home.routeName: (context) => Home(),
         FlowerGrid.routeName: (context) => FlowerGrid(),
         AddItem.routeName: (context) => AddItem(),
+        DeliveryHistory.routeName: (context) => DeliveryHistory(),
       },
     );
   }
