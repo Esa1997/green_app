@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:green_app/pages/flower_grid.dart';
+import 'package:green_app/pages/shop.dart';
 
 import '../services/flower _item_database.dart';
 
@@ -28,6 +29,10 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         title: Text('Home'),
         centerTitle: true,
+        actions: [
+          IconButton(onPressed: (){Navigator.of(context).pushNamed(Shop.routeName);}, icon: Icon(Icons.person))
+        ],
+
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it

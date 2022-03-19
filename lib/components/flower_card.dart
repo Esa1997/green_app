@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:green_app/models/flower_item.dart';
 import 'package:green_app/pages/edit_flower_item.dart';
+import 'package:green_app/pages/shop.dart';
+import 'package:green_app/providers/cart_provider.dart';
+import 'package:provider/provider.dart';
 
 class FlowerCard extends StatelessWidget {
   final FlowerItem flower;
@@ -9,6 +13,7 @@ class FlowerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //bool itemStatus = !Provider.of<CartProvider>(context).isItemAdded(flower);
     return Card(
       elevation: 5,
       clipBehavior: Clip.antiAlias,
@@ -57,19 +62,25 @@ class FlowerCard extends StatelessWidget {
                                   )
                               );
                             },
-                            icon: Icon(Icons.edit, color: Colors.teal,)
+                            icon: Icon(Icons.edit, color: Colors.teal,size: 30,)
+                        ),
+                        IconButton(
+                            onPressed:(){
+                              Provider.of<CartProvider>(context,listen: false).addItem(flower);
+                              Fluttertoast.showToast(msg: 'Item added to cart');
+                              Navigator.of(context).pushNamed(Shop.routeName);
+
+                              } ,
+
+                            icon: Icon(Icons.add_shopping_cart, color: Colors.teal,size: 30,)
                         ),
                         IconButton(
                             onPressed: () {},
-                            icon: Icon(Icons.add_shopping_cart, color: Colors.teal,)
+                            icon: Icon(Icons.delivery_dining_rounded, color: Colors.teal,size: 30,)
                         ),
                         IconButton(
                             onPressed: () {},
-                            icon: Icon(Icons.delivery_dining_rounded, color: Colors.teal,)
-                        ),
-                        IconButton(
-                            onPressed: () {},
-                            icon: Icon(Icons.comment, color: Colors.teal,)
+                            icon: Icon(Icons.comment, color: Colors.teal,size: 30,)
                         ),
                       ],
                     )

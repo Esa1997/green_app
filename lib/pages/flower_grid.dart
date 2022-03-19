@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:green_app/components/flower_card.dart';
 import 'package:green_app/models/flower_item.dart';
 import 'package:green_app/pages/add_flower_item.dart';
+import 'package:green_app/pages/shop.dart';
 import 'package:green_app/services/flower%20_item_database.dart';
 
 class FlowerGrid extends StatefulWidget {
@@ -42,22 +44,41 @@ class _FlowerGridState extends State<FlowerGrid> {
       appBar: AppBar(
         centerTitle: true,
         title: Text('Greenery Shop'),
+        actions: [
+          IconButton(onPressed: (){Navigator.of(context).pushNamed(Shop.routeName);}, icon: Icon(Icons.shopping_cart))
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 1),
             itemCount: itemList.length,
             itemBuilder: (context, index) {
               return FlowerCard(flower: itemList.elementAt(index));
             }),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).pushNamed(AddItem.routeName);
-        },
-        child: const Icon(Icons.add),
+      floatingActionButton: SpeedDial(
+        animatedIcon: AnimatedIcons.menu_home,
+        children: [
+          SpeedDialChild(
+            child: FloatingActionButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(AddItem.routeName);
+              },
+              child: const Icon(Icons.add),
+            ),
+          ),
+          SpeedDialChild(
+            child: FloatingActionButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(Shop.routeName);
+              },
+              child: const Icon(Icons.shopping_cart),
+            ),
+          )
+        ],
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }
