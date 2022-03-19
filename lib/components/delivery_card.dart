@@ -1,11 +1,46 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:green_app/pages/edit_delivery.dart';
+import 'package:intl/intl.dart';
 import 'package:green_app/models/delivery_item.dart';
 
-class DeliveryCard extends StatelessWidget {
+class DeliveryCard extends StatefulWidget {
   final DeliveryItem delivery;
 
   const DeliveryCard({Key? key, required this.delivery}) : super(key: key);
+
+  @override
+  State<DeliveryCard> createState() => _DeliveryCardState();
+}
+
+class _DeliveryCardState extends State<DeliveryCard> {
+
+  Widget _getWidget(String date) {
+    if(DateFormat('d-m-y').parse(date).isBefore(DateTime.now().add(const Duration(days: 1)))){
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          IconButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EditDelivery(item: widget.delivery),
+                    )
+                );
+              },
+              icon: Icon(Icons.edit, color: Colors.teal)
+          ),
+          IconButton(
+              onPressed: () {},
+              icon: Icon(Icons.delete, color: Colors.red)
+          )
+        ],
+      );
+    }else{
+      return Column();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +57,7 @@ class DeliveryCard extends StatelessWidget {
             child: Row(
               children: [
                 Image.network(
-                  delivery.flowerUrl,
+                  widget.delivery.flowerUrl,
                   width: 70,
                   height: 70,
                   fit: BoxFit.fitHeight),
@@ -33,7 +68,7 @@ class DeliveryCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        delivery.receiverName,
+                        widget.delivery.receiverName,
                         style: const TextStyle(
                             fontSize: 20.0,
                             color: Colors.black, fontWeight: FontWeight.bold
@@ -41,7 +76,7 @@ class DeliveryCard extends StatelessWidget {
                       ),
                       const SizedBox(height: 5),
                       Text(
-                        delivery.receiverAddress,
+                        widget.delivery.receiverAddress,
                         style: TextStyle(
                             fontSize: 14.0,
                             color: Colors.grey[600], fontWeight: FontWeight.bold
@@ -49,7 +84,7 @@ class DeliveryCard extends StatelessWidget {
                       ),
                       SizedBox(height: 5),
                       Text(
-                        delivery.date,
+                        widget.delivery.date,
                         style: TextStyle(
                             fontSize: 14.0,
                             color: Colors.grey[600], fontWeight: FontWeight.bold
@@ -58,19 +93,7 @@ class DeliveryCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.edit, color: Colors.teal)
-                    ),
-                    IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.delete, color: Colors.red)
-                    )
-                  ],
-                ),
+                _getWidget(widget.delivery.date)
               ],
             ),
           ),
