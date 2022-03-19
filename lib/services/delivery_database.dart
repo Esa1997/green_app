@@ -71,15 +71,15 @@ class DeliveryDatabase{
     };
 
     return await documentReference.update(data)
-        .whenComplete(() => Fluttertoast.showToast(msg: 'Item Updated.'))
+        .whenComplete(() => Fluttertoast.showToast(msg: 'Delivery details updated.'))
         .onError((error, stackTrace) => Fluttertoast.showToast(msg: error.toString()));
   }
 
-  // Future deleteData({required String id}) async {
-  //   final documentReference = _collectionReference.doc(id);
-  //
-  //   return await documentReference.delete()
-  //       .whenComplete(() => Fluttertoast.showToast(msg: 'Item Deleted.'))
-  //       .onError((error, stackTrace) => Fluttertoast.showToast(msg: error.toString()));
-  // }
+  Future deleteData({required String id}) async {
+    final documentReference = _collectionReference.doc(id);
+
+    return await documentReference.delete()
+        .whenComplete(() => Fluttertoast.showToast(msg: 'Order canceled.'))
+        .onError((error, stackTrace) => Fluttertoast.showToast(msg: error.toString()));
+  }
 }

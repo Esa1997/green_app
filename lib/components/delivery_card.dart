@@ -4,6 +4,9 @@ import 'package:green_app/pages/edit_delivery.dart';
 import 'package:intl/intl.dart';
 import 'package:green_app/models/delivery_item.dart';
 
+import '../pages/delivery_history.dart';
+import '../services/delivery_database.dart';
+
 class DeliveryCard extends StatefulWidget {
   final DeliveryItem delivery;
 
@@ -14,6 +17,56 @@ class DeliveryCard extends StatefulWidget {
 }
 
 class _DeliveryCardState extends State<DeliveryCard> {
+
+  final database = DeliveryDatabase();
+
+  showAlertDialog(BuildContext context) {
+    Widget cancelButton = TextButton(
+      child: Text("Cancel"),
+      onPressed:  () {
+        Navigator.pop(context);
+      },
+    );
+    Widget okButton = TextButton(
+      child: Text("Ok"),
+      onPressed:  () {
+        onDelete();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Alert"),
+      content: Text("Are you sure you want to cancel this order?"),
+      actions: [
+        cancelButton,
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  onDelete() async {
+    try{
+      await database.deleteData(id: widget.delivery.id);
+    } on Exception catch (error){
+      print('Exception: $error');
+    } finally {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DeliveryHistory(),
+          )
+      );
+    }
+  }
 
   Widget _getWidget(String date) {
     if(DateFormat('d-m-y').parse(date).isBefore(DateTime.now().add(const Duration(days: 1)))){
@@ -32,7 +85,9 @@ class _DeliveryCardState extends State<DeliveryCard> {
               icon: Icon(Icons.edit, color: Colors.teal)
           ),
           IconButton(
-              onPressed: () {},
+              onPressed: () {
+                showAlertDialog(context);
+              },
               icon: Icon(Icons.delete, color: Colors.red)
           )
         ],
