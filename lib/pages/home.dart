@@ -1,13 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:green_app/pages/edit_user.dart';
 import 'package:green_app/pages/flower_grid.dart';
 import 'package:green_app/pages/shop.dart';
 
+import '../models/user_model.dart';
 import '../services/flower _item_database.dart';
 
 class Home extends StatefulWidget {
-  static const String routeName = '/';
+  static const String routeName = '/Home';
   Home({Key? key}) : super(key: key);
 
   @override
@@ -15,6 +18,12 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+  User? user = FirebaseAuth.instance.currentUser;
+  UserModel loggedInUser = UserModel();
+
+
+  
   int _currentIndex = 0;
   final tabs = [
     Home(),
@@ -30,7 +39,16 @@ class _HomeState extends State<Home> {
         title: Text('Home'),
         centerTitle: true,
         actions: [
-          IconButton(onPressed: (){Navigator.of(context).pushNamed(Shop.routeName);}, icon: Icon(Icons.person))
+          IconButton(onPressed: (){
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Edit_user(),
+                )
+            );
+            }, 
+              icon: Icon(Icons.person)
+          )
         ],
 
       ),
