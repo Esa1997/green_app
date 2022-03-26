@@ -1,3 +1,5 @@
+
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +40,7 @@ class _Edit_userState extends State<Edit_user> {
   TextEditingController? firstNameEditingController;
   TextEditingController? secondNameEditingController;
   TextEditingController? emailEditingController;
+  TextEditingController? dateofbirthEditingController;
 
 
   @override
@@ -60,6 +63,7 @@ class _Edit_userState extends State<Edit_user> {
       firstNameEditingController = new TextEditingController(text: loggedInUser?.firstName);
       secondNameEditingController = new TextEditingController(text: loggedInUser?.secondName);
       emailEditingController = new TextEditingController(text: loggedInUser?.email);
+      dateofbirthEditingController = new TextEditingController(text: loggedInUser?.dateOfBirth);
 
     });
 
@@ -141,13 +145,39 @@ class _Edit_userState extends State<Edit_user> {
           return null;
         },
         onSaved: (value) {
-          firstNameEditingController?.text = value!;
+          emailEditingController?.text = value!;
         },
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
           prefixIcon: Icon(Icons.mail),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Email",
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ));
+
+    //date of birth field
+
+    final dateOfBirthfield = TextFormField(
+        autofocus: false,
+        controller: dateofbirthEditingController,
+        keyboardType: TextInputType.datetime,
+        validator: (value) {
+          RegExp regex = new RegExp(r'^.{3,}$');
+          if (value!.isEmpty) {
+            return ("Date of birth cannot be Empty");
+          }
+          return null;
+        },
+        onSaved: (value) {
+          dateofbirthEditingController?.text = value!;
+        },
+        textInputAction: TextInputAction.next,
+        decoration: InputDecoration(
+          prefixIcon: Icon(Icons.calendar_today),
+          contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+          hintText: "Date of Birth",
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
           ),
@@ -238,6 +268,8 @@ class _Edit_userState extends State<Edit_user> {
                     SizedBox(height: 20),
                     emailField,
                     SizedBox(height: 20),
+                    dateOfBirthfield,
+                    SizedBox(height: 20),
                     UpdateButton,
                     SizedBox(height: 15),
                     DeleteButton,
@@ -261,7 +293,7 @@ class _Edit_userState extends State<Edit_user> {
         print('Form Submitted');
 
 
-        await _user_database.updateData(loggedInUser?.uid.toString(),firstNameEditingController?.text.toString(), secondNameEditingController?.text.toString(), emailEditingController?.text.toString() );
+        await _user_database.updateData(loggedInUser?.uid.toString(),firstNameEditingController?.text.toString(), secondNameEditingController?.text.toString(), emailEditingController?.text.toString(), dateofbirthEditingController?.text.toString() );
       }
     } on Exception catch (error){
       print('Exception: $error');

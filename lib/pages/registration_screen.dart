@@ -27,6 +27,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final firstNameEditingController = new TextEditingController();
   final secondNameEditingController = new TextEditingController();
   final emailEditingController = new TextEditingController();
+  final dateofbirthEditingController = new TextEditingController();
   final passwordEditingController = new TextEditingController();
   final confirmPasswordEditingController = new TextEditingController();
 
@@ -112,6 +113,30 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             borderRadius: BorderRadius.circular(10),
           ),
         ));
+    //date of birth field
+
+    final dateOfBirthfield = TextFormField(
+        autofocus: false,
+        controller: dateofbirthEditingController,
+        keyboardType: TextInputType.datetime,
+        validator: (value) {
+          if (value!.isEmpty) {
+            return ("Second Name cannot be Empty");
+          }
+          return null;
+        },
+        onSaved: (value) {
+          dateofbirthEditingController.text = value!;
+        },
+        textInputAction: TextInputAction.next,
+        decoration: InputDecoration(
+          prefixIcon: Icon(Icons.calendar_today),
+          contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+          hintText: "Date of Birth",
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ));
 
     //password field
     final passwordField = TextFormField(
@@ -128,7 +153,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           }
         },
         onSaved: (value) {
-          firstNameEditingController.text = value!;
+          passwordEditingController.text = value!;
         },
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
@@ -217,13 +242,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         )),
                     SizedBox(height: 45),
                     firstNameField,
-                    SizedBox(height: 20),
+                    SizedBox(height: 15),
                     secondNameField,
-                    SizedBox(height: 20),
+                    SizedBox(height: 15),
                     emailField,
+                    SizedBox(height: 15),
+                    dateOfBirthfield,
                     SizedBox(height: 20),
                     passwordField,
-                    SizedBox(height: 20),
+                    SizedBox(height: 15),
                     confirmPasswordField,
                     SizedBox(height: 20),
                     signUpButton,
@@ -290,6 +317,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     userModel.uid = user.uid;
     userModel.firstName = firstNameEditingController.text;
     userModel.secondName = secondNameEditingController.text;
+    userModel.dateOfBirth= dateofbirthEditingController.text;
 
     await firebaseFirestore
         .collection("users")

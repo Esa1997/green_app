@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:green_app/models/flower_item.dart';
 import 'package:green_app/pages/edit_flower_item.dart';
+import 'package:green_app/pages/feedback_grid.dart';
 import 'package:green_app/pages/shop.dart';
 import 'package:green_app/providers/cart_provider.dart';
 import 'package:provider/provider.dart';
@@ -79,7 +80,14 @@ class FlowerCard extends StatelessWidget {
                             icon: Icon(Icons.delivery_dining_rounded, color: Colors.teal,size: 30,)
                         ),
                         IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => FeedbackGrid(),
+                                  )
+                              );
+                            },
                             icon: Icon(Icons.comment, color: Colors.teal,size: 30,)
                         ),
                       ],
