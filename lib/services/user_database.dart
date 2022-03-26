@@ -25,7 +25,7 @@ class UserDatabase{
       querySnapshot.docs.forEach((doc) {
 
         if(doc["uid"] == user?.uid ){
-          loggedInUser = UserModel(uid: user?.uid,firstName:doc["firstName"] ,secondName:doc["secondName"] ,email:doc["email"] );
+          loggedInUser = UserModel(uid: user?.uid,firstName:doc["firstName"] ,secondName:doc["secondName"] ,email:doc["email"], dateOfBirth:doc['dateOfBirth'] );
         }
         else{
 
@@ -41,7 +41,7 @@ class UserDatabase{
   }
 
 
-  Future updateData(String? uid, String? firstname, String? secondname, String? email) async {
+  Future updateData(String? uid, String? firstname, String? secondname, String? email, String? dateOfBirth) async {
     final documentReference = _collectionReference.doc(uid);
 
     Map<String, dynamic> data = {
@@ -49,6 +49,7 @@ class UserDatabase{
       'firstName': firstname.toString(),
       'secondName': secondname.toString(),
       'email': email.toString(),
+      'dateOfBirth': dateOfBirth.toString(),
 
     };
 
