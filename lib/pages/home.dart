@@ -1,12 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:green_app/pages/delivery_history.dart';
-import 'package:green_app/pages/delivery_form.dart';
 import 'package:green_app/pages/flower_grid.dart';
 import 'package:green_app/pages/shop.dart';
 
 import '../services/flower _item_database.dart';
+import 'delivery_history.dart';
 
 class Home extends StatefulWidget {
   static const String routeName = '/';
@@ -57,9 +56,7 @@ class _HomeState extends State<Home> {
               child: Text('Prasadi'),
             ),
             ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(DeliveryHistory.routeName);
-              },
+              onPressed: () {},
               child: Text('Rangeena'),
             )
           ],

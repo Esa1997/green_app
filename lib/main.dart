@@ -6,6 +6,7 @@ import 'package:green_app/pages/delivery_history.dart';
 import 'package:green_app/pages/edit_flower_item.dart';
 import 'package:green_app/pages/flower_grid.dart';
 import 'package:green_app/pages/home.dart';
+import 'package:green_app/pages/login_screen.dart';
 import 'package:green_app/pages/shop.dart';
 import 'package:green_app/providers/cart_provider.dart';
 import 'package:provider/provider.dart';
@@ -30,8 +31,9 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.teal,
         ),
         debugShowCheckedModeBanner: false,
-        initialRoute: Home.routeName,
+        initialRoute: LoginScreen.routeName,
         routes: {
+          LoginScreen.routeName:(context) => LoginScreen(),
           Home.routeName: (context) => Home(),
           FlowerGrid.routeName: (context) => FlowerGrid(),
           AddItem.routeName: (context) => AddItem(),
