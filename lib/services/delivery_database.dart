@@ -57,27 +57,29 @@ class DeliveryDatabase{
     }
   }
 
-  // Future updateData(String id, String name, double price, String description, String url) async {
-  //   final documentReference = _collectionReference.doc(id);
-  //
-  //   Map<String, dynamic> data = {
-  //     'id': id,
-  //     'name': name,
-  //     'description': description,
-  //     'url': url,
-  //     'price': price
-  //   };
-  //
-  //   return await documentReference.update(data)
-  //       .whenComplete(() => Fluttertoast.showToast(msg: 'Item Updated.'))
-  //       .onError((error, stackTrace) => Fluttertoast.showToast(msg: error.toString()));
-  // }
+  Future updateData(String id, String senderName, String senderEmail, String receiverName,  String receiverAddress, String receiverPhone, String date) async {
+    final documentReference = _collectionReference.doc(id);
 
-  // Future deleteData({required String id}) async {
-  //   final documentReference = _collectionReference.doc(id);
-  //
-  //   return await documentReference.delete()
-  //       .whenComplete(() => Fluttertoast.showToast(msg: 'Item Deleted.'))
-  //       .onError((error, stackTrace) => Fluttertoast.showToast(msg: error.toString()));
-  // }
+    Map<String, dynamic> data = {
+      'id': id,
+      'senderName': senderName,
+      'senderEmail': senderEmail,
+      'receiverName': receiverName,
+      'receiverAddress': receiverAddress,
+      'receiverPhone': receiverPhone,
+      'date': date,
+    };
+
+    return await documentReference.update(data)
+        .whenComplete(() => Fluttertoast.showToast(msg: 'Delivery details updated.'))
+        .onError((error, stackTrace) => Fluttertoast.showToast(msg: error.toString()));
+  }
+
+  Future deleteData({required String id}) async {
+    final documentReference = _collectionReference.doc(id);
+
+    return await documentReference.delete()
+        .whenComplete(() => Fluttertoast.showToast(msg: 'Order canceled.'))
+        .onError((error, stackTrace) => Fluttertoast.showToast(msg: error.toString()));
+  }
 }
