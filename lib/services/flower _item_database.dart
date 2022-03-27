@@ -1,17 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:green_app/models/flower_item.dart';
 
 class FlowerItemDatabase{
   static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   static final _collectionReference = _firestore.collection('FlowerDetails');
+  static final User? user = FirebaseAuth.instance.currentUser;
 
   Future addData(String name, double price, String description, String url) async {
-    DateTime now = new DateTime.now();
-    final documentReference = _collectionReference.doc(now.toString());
+    String? user_id = user?.uid.toString();
+    final documentReference = _collectionReference.doc(user_id);
 
     Map<String, dynamic> data = {
-      'id': now.toString(),
+      'id': user_id,
       'name': name,
       'description': description,
       'url': url,

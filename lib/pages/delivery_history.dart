@@ -42,6 +42,13 @@ class _DeliveryHistoryState extends State<DeliveryHistory> {
       appBar: AppBar(
         centerTitle: true,
         title: Text('Delivery History'),
+        actions: [
+          IconButton(
+              onPressed: (){
+                //Navigator.of(context).pushNamed();
+                },
+              icon: Icon(Icons.add_circle, size: 27,))
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),

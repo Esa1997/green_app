@@ -37,68 +37,6 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Home'),
-        centerTitle: true,
-        actions: [
-          IconButton(onPressed: (){
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => Edit_user(),
-                )
-            );
-            }, 
-              icon: Icon(Icons.person)
-          )
-        ],
-
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(FlowerGrid.routeName);
-              },
-              child: Text('Esa'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => FeedbackGrid(),
-                    )
-                );
-              },
-              child: Text('Thamashi'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => AddFeedback(),
-                    )
-                );
-              },
-              child: Text('Prasadi'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(DeliveryHistory.routeName);
-              },
-              child: Text('Rangeena'),
-            )
-          ],
-        ),
-      ),
-
-    );
+    return FlowerGrid();
   }
 }

@@ -115,6 +115,8 @@ class _EditItemState extends State<EditItem> {
     }
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -270,7 +272,29 @@ class _EditItemState extends State<EditItem> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           ElevatedButton.icon(
-                            onPressed: onDelete,
+                            onPressed: () {
+                              showDialog(context: context, builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text("Alert"),
+                                    content: Text("Are you sure you want to delete this Item?"),
+                                    actions: [
+                                      TextButton(
+                                        child: Text("Cancel"),
+                                        onPressed:  () {
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                      TextButton(
+                                        child: Text("Delete"),
+                                        onPressed:  () {
+                                          onDelete();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
                             icon: Icon(Icons.delete, size: 25,),
                             label: Text(
                               'DELETE ITEM',
@@ -310,5 +334,7 @@ class _EditItemState extends State<EditItem> {
         )
     );
   }
+
+
 
 }

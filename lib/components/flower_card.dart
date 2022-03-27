@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:green_app/models/flower_item.dart';
@@ -9,8 +10,9 @@ import 'package:provider/provider.dart';
 
 class FlowerCard extends StatelessWidget {
   final FlowerItem flower;
+  User? user = FirebaseAuth.instance.currentUser;
 
-  const FlowerCard({Key? key, required this.flower}) : super(key: key);
+  FlowerCard({Key? key, required this.flower}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -56,12 +58,16 @@ class FlowerCard extends StatelessWidget {
                       children: [
                         IconButton(
                             onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => EditItem(item: flower),
-                                  )
-                              );
+                              if(user?.uid == flower.id){
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => EditItem(item: flower),
+                                    )
+                                );
+                              } else{
+                                Fluttertoast.showToast(msg: "You Don't Have Permission to Edit this Item!");
+                              }
                             },
                             icon: Icon(Icons.edit, color: Colors.teal,size: 30,)
                         ),
@@ -74,10 +80,6 @@ class FlowerCard extends StatelessWidget {
                               } ,
 
                             icon: Icon(Icons.add_shopping_cart, color: Colors.teal,size: 30,)
-                        ),
-                        IconButton(
-                            onPressed: () {},
-                            icon: Icon(Icons.delivery_dining_rounded, color: Colors.teal,size: 30,)
                         ),
                         IconButton(
                             onPressed: () {
