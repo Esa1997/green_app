@@ -49,7 +49,7 @@ class _EditFeedbackItemState extends State<EditFeedbackItem> {
 
   Future pickImage() async {
     try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      final image = await ImagePicker().pickImage(source: ImageSource.camera);
       if (image == null) return;
 
       final imageTemporary = File(image.path);
@@ -64,7 +64,7 @@ class _EditFeedbackItemState extends State<EditFeedbackItem> {
 
   onUpdate() async {
     if(_pickedImage == null && _url == null){
-      Fluttertoast.showToast(msg: 'Select an Image from Gallery');
+      Fluttertoast.showToast(msg: 'Select an Image from Camera roll');
     }
     else{
       try{
@@ -197,7 +197,7 @@ class _EditFeedbackItemState extends State<EditFeedbackItem> {
                             border: OutlineInputBorder(
                                 borderSide: BorderSide(color: Colors.teal)
                             ),
-                            labelText: 'Name',
+                            labelText: 'Nickname',
                             helperText: 'Name',
                           ),
                           controller: TextEditingController(text: '$_name'),

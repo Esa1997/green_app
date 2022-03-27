@@ -235,12 +235,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     SizedBox(
-                        height: 180,
+                        height: 150,
                         child: Image.asset(
                           "assets/images/logo.jpg",
                           fit: BoxFit.contain,
                         )),
-                    SizedBox(height: 45),
+                    SizedBox(height: 40),
                     firstNameField,
                     SizedBox(height: 15),
                     secondNameField,
@@ -248,7 +248,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     emailField,
                     SizedBox(height: 15),
                     dateOfBirthfield,
-                    SizedBox(height: 20),
+                    SizedBox(height: 15),
                     passwordField,
                     SizedBox(height: 15),
                     confirmPasswordField,
