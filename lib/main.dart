@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
         initialRoute: LoginScreen.routeName,
         routes: {
           LoginScreen.routeName:(context) => LoginScreen(),
-          Home.routeName: (context) => Home(),
+          Home.routeName: (context) => const Home(),
           FlowerGrid.routeName: (context) => FlowerGrid(),
           AddItem.routeName: (context) => AddItem(),
           Shop.routeName: (context) => Shop(),

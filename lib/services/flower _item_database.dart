@@ -12,6 +12,7 @@ class FlowerItemDatabase{
     String? user_id = user?.uid.toString();
     final documentReference = _collectionReference.doc(user_id);
 
+    //map flower details into a Map
     Map<String, dynamic> data = {
       'id': user_id,
       'name': name,
@@ -20,6 +21,7 @@ class FlowerItemDatabase{
       'price': price
     };
 
+    //add flower item to inventory()database
     documentReference.set(data)
         .whenComplete(() => Fluttertoast.showToast(msg: 'Item Added.'))
         .onError((error, stackTrace) => Fluttertoast.showToast(msg: error.toString()));
@@ -27,6 +29,7 @@ class FlowerItemDatabase{
 
   Future readData() async {
     List<FlowerItem> itemList = [];
+    //retrieve flower items from inventory (database)
     try {
       await _collectionReference.get().then((QuerySnapshot querySnapshot) {
         querySnapshot.docs.forEach((doc) {
@@ -52,6 +55,7 @@ class FlowerItemDatabase{
   Future updateData(String id, String name, double price, String description, String url) async {
     final documentReference = _collectionReference.doc(id);
 
+    //map flower details into a Map
     Map<String, dynamic> data = {
       'id': id,
       'name': name,
@@ -60,6 +64,7 @@ class FlowerItemDatabase{
       'price': price
     };
 
+    //update selected flower item in inventory(database)
     return await documentReference.update(data)
         .whenComplete(() => Fluttertoast.showToast(msg: 'Item Updated.'))
         .onError((error, stackTrace) => Fluttertoast.showToast(msg: error.toString()));
@@ -68,6 +73,7 @@ class FlowerItemDatabase{
   Future deleteData({required String id}) async {
     final documentReference = _collectionReference.doc(id);
 
+    //delete selected flower item from inventory(database)
     return await documentReference.delete()
         .whenComplete(() => Fluttertoast.showToast(msg: 'Item Deleted.'))
         .onError((error, stackTrace) => Fluttertoast.showToast(msg: error.toString()));

@@ -28,6 +28,7 @@ class _FlowerGridState extends State<FlowerGrid> {
     fetchData();
   }
 
+  //retrieve flower list from inventory(database)
   fetchData() async {
     final database = FlowerItemDatabase();
     List<FlowerItem>? results = await database.readData();
@@ -41,6 +42,7 @@ class _FlowerGridState extends State<FlowerGrid> {
     }
   }
 
+  //build a flower grid dynamically using the flower list from inventory
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,7 +71,7 @@ class _FlowerGridState extends State<FlowerGrid> {
               return FlowerCard(flower: itemList.elementAt(index));
             }),
       ),
-      floatingActionButton: SpeedDial(
+      floatingActionButton: SpeedDial( // floating menu button list
         animatedIcon: AnimatedIcons.menu_home,
         children: [
           SpeedDialChild(
@@ -86,6 +88,12 @@ class _FlowerGridState extends State<FlowerGrid> {
           ),
           SpeedDialChild(
             child: const Icon(Icons.delivery_dining_sharp, color: Colors.teal,),
+            onTap: () {
+              //Navigator.of(context).pushNamed(DeliveryHistory.routeName);
+            },
+          ),
+          SpeedDialChild(
+            child: const Icon(Icons.history, color: Colors.teal,),
             onTap: () {
               Navigator.of(context).pushNamed(DeliveryHistory.routeName);
             },

@@ -14,6 +14,7 @@ class FlowerCard extends StatelessWidget {
 
   FlowerCard({Key? key, required this.flower}) : super(key: key);
 
+  //flower component
   @override
   Widget build(BuildContext context) {
     //bool itemStatus = !Provider.of<CartProvider>(context).isItemAdded(flower);
@@ -58,6 +59,7 @@ class FlowerCard extends StatelessWidget {
                       children: [
                         IconButton(
                             onPressed: () {
+                              //check whether the user whose trying edit item is the one who added the item
                               if(user?.uid == flower.id){
                                 Navigator.push(
                                     context,
@@ -73,6 +75,7 @@ class FlowerCard extends StatelessWidget {
                         ),
                         IconButton(
                             onPressed:(){
+                              //add item to cart
                               Provider.of<CartProvider>(context,listen: false).addItem(flower);
                               Fluttertoast.showToast(msg: 'Item added to cart');
                               Navigator.of(context).pushNamed(Shop.routeName);
@@ -83,6 +86,7 @@ class FlowerCard extends StatelessWidget {
                         ),
                         IconButton(
                             onPressed: () {
+                              //navigate to the selected flower items feedback list
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
