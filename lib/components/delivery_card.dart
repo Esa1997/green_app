@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:green_app/pages/edit_delivery.dart';
 import 'package:intl/intl.dart';
 import 'package:green_app/models/delivery_item.dart';
-
 import '../pages/delivery_history.dart';
 import '../services/delivery_database.dart';
 
@@ -69,7 +68,7 @@ class _DeliveryCardState extends State<DeliveryCard> {
   }
 
   Widget _getWidget(String date) {
-    if(DateFormat('d-m-y').parse(date).isBefore(DateTime.now().add(const Duration(days: 1)))){
+    if(DateFormat('d-m-y').parse(date).isBefore(DateTime.now().add(const Duration(days: 2)))){
       return Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
@@ -111,12 +110,12 @@ class _DeliveryCardState extends State<DeliveryCard> {
             padding: const EdgeInsets.all(10),
             child: Row(
               children: [
-                Image.network(
-                  widget.delivery.flowerUrl,
-                  width: 70,
-                  height: 70,
-                  fit: BoxFit.fitHeight),
-                const SizedBox(width: 10),
+                // Image.network(
+                //   widget.delivery.flowerUrl,
+                //   width: 70,
+                //   height: 70,
+                //   fit: BoxFit.fitHeight),
+                // const SizedBox(width: 10),
                 Expanded(
                   flex: 1,
                   child: Column(
@@ -140,6 +139,14 @@ class _DeliveryCardState extends State<DeliveryCard> {
                       SizedBox(height: 5),
                       Text(
                         widget.delivery.date,
+                        style: TextStyle(
+                            fontSize: 14.0,
+                            color: Colors.grey[600], fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      SizedBox(height: 5),
+                      Text(
+                        widget.delivery.total,
                         style: TextStyle(
                             fontSize: 14.0,
                             color: Colors.grey[600], fontWeight: FontWeight.bold

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:green_app/services/delivery_database.dart';
-
 import '../models/flower_item.dart';
-import 'flower_grid.dart';
+import '../models/user_delivery.dart';
+import '../models/user_model.dart';
 
 class DeliveryForm extends StatefulWidget {
   static const String routeName= '/deliveryForm';
-  FlowerItem item;
+  String total;
 
-  DeliveryForm({Key? key, required this.item}) : super(key: key);
+  DeliveryForm({Key? key, required this.total}) : super(key: key);
 
   @override
   _DeliveryFormState createState() => _DeliveryFormState();
@@ -21,27 +21,52 @@ class _DeliveryFormState extends State<DeliveryForm> {
   String? _receiverAddress;
   String? _receiverPhoneNumber;
   String? _date;
-  FlowerItem? _flower;
+  String? _total;
+
+  TextEditingController? userNameController;
+  TextEditingController? senderEmailController;
+  TextEditingController? senderAddressController;
+  TextEditingController? senderPhoneNumberController;
+  TextEditingController? receiverNameController;
+  TextEditingController? receiverAddressController;
+  TextEditingController? receiverPhoneNumberController;
 
   var date = TextEditingController();
   DateTime selectedDate = DateTime.now();
   final database = DeliveryDatabase();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  UserDelivery? loggedInUser;
 
   @override
   void initState() {
     super.initState();
     getItemDetails();
+    getUserData();
   }
 
   void getItemDetails(){
     setState(() {
-      _flower = widget.item;
+      _total = widget.total;
     });
+  }
+
+  void getUserData() async{
+    loggedInUser = await database.getUserDeliveryDetails();
+
+    setState(() {
+      if(loggedInUser != null){
+        userNameController = TextEditingController(text: loggedInUser?.senderName);
+        senderEmailController = TextEditingController(text: loggedInUser?.senderEmail);
+        senderAddressController = TextEditingController(text: loggedInUser?.senderAddress);
+        senderPhoneNumberController = TextEditingController(text: loggedInUser?.senderPhone);
+      }
+    });
+
   }
 
   Widget _buildSenderName() {
     return TextFormField(
+      controller: userNameController,
       decoration: const InputDecoration(
           border: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.teal)
@@ -56,13 +81,14 @@ class _DeliveryFormState extends State<DeliveryForm> {
         return null;
       },
       onSaved: (String? value) {
-        _senderName = value;
+        userNameController?.text = value!;
       },
     );
   }
 
   Widget _buildSenderEmail() {
     return TextFormField(
+      controller: senderEmailController,
       decoration: const InputDecoration(
           border: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.teal)
@@ -82,13 +108,14 @@ class _DeliveryFormState extends State<DeliveryForm> {
         return null;
       },
       onSaved: (String? value) {
-        _senderEmail = value;
+        senderEmailController?.text = value!;
       },
     );
   }
 
   Widget _buildReceiverName() {
     return TextFormField(
+      controller: receiverNameController,
       decoration: const InputDecoration(
           border: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.teal)
@@ -108,8 +135,31 @@ class _DeliveryFormState extends State<DeliveryForm> {
     );
   }
 
+  Widget _buildSenderAddress() {
+    return TextFormField(
+      controller: senderAddressController,
+      decoration: const InputDecoration(
+          border: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.teal)
+          ),
+          labelText: 'Sender Address'
+      ),
+      keyboardType: TextInputType.streetAddress,
+      validator: (String? value) {
+        if (value == null || value.isEmpty) {
+          return 'Address is Required';
+        }
+        return null;
+      },
+      onSaved: (String? value) {
+        senderAddressController?.text = value!;
+      },
+    );
+  }
+
   Widget _buildReceiverAddress() {
     return TextFormField(
+      controller: receiverAddressController,
       decoration: const InputDecoration(
           border: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.teal)
@@ -129,8 +179,32 @@ class _DeliveryFormState extends State<DeliveryForm> {
     );
   }
 
+  Widget _buildSenderPhoneNumber() {
+    return TextFormField(
+      controller: senderPhoneNumberController,
+      decoration: const InputDecoration(
+          border: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.teal)
+          ),
+          labelText: 'Sender Phone number'
+      ),
+      keyboardType: TextInputType.phone,
+      validator: (String? value) {
+        if (value == null || value.isEmpty) {
+          return 'Phone number is Required';
+        }
+
+        return null;
+      },
+      onSaved: (String? value) {
+        senderPhoneNumberController?.text = value!;
+      },
+    );
+  }
+
   Widget _buildReceiverPhoneNumber() {
     return TextFormField(
+      controller: receiverPhoneNumberController,
       decoration: const InputDecoration(
           border: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.teal)
@@ -199,7 +273,16 @@ class _DeliveryFormState extends State<DeliveryForm> {
     _formKey.currentState!.save();
 
     try{
-      await database.addData(_senderName!, _senderEmail!, _receiverName!, _receiverAddress!, _receiverPhoneNumber!, _date!, _flower!);
+      await database.addData(
+          userNameController?.text.toString(),
+          senderEmailController?.text.toString(),
+          senderAddressController?.text.toString(),
+          senderPhoneNumberController?.text.toString(),
+          _receiverName,
+          _receiverAddress,
+          _receiverPhoneNumber,
+          _date!,
+          _total!);
     } on Exception catch (error){
       print('Exception: $error');
     } finally {
@@ -224,55 +307,59 @@ class _DeliveryFormState extends State<DeliveryForm> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                Card(
-                elevation: 5,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Row(
-                    children: [
-                      Image.network(
-                        _flower!.url,
-                        width: 100,
-                        height: 100,
-                        fit: BoxFit.fitHeight,),
-                      const SizedBox(width: 20),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            _flower!.name,
-                            style: const TextStyle(
-                                fontSize: 20.0,
-                                color: Colors.black, fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 5),
-                          Text(
-                            _flower!.price.toString(),
-                            style: TextStyle(
-                                fontSize: 14.0,
-                                color: Colors.grey[600], fontWeight: FontWeight.bold
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              //   Card(
+              //   elevation: 5,
+              //   shape: RoundedRectangleBorder(
+              //       borderRadius: BorderRadius.circular(20)
+              //   ),
+              //   child: Padding(
+              //     padding: const EdgeInsets.all(10),
+              //     child: Row(
+              //       children: [
+              //         Image.network(
+              //           _flower!.url,
+              //           width: 100,
+              //           height: 100,
+              //           fit: BoxFit.fitHeight,),
+              //         const SizedBox(width: 20),
+              //         Column(
+              //           crossAxisAlignment: CrossAxisAlignment.start,
+              //           children: [
+              //             Text(
+              //               _flower!.name,
+              //               style: const TextStyle(
+              //                   fontSize: 20.0,
+              //                   color: Colors.black, fontWeight: FontWeight.bold,
+              //               ),
+              //             ),
+              //             const SizedBox(height: 5),
+              //             Text(
+              //               _flower!.price.toString(),
+              //               style: TextStyle(
+              //                   fontSize: 14.0,
+              //                   color: Colors.grey[600], fontWeight: FontWeight.bold
+              //               ),
+              //             ),
+              //           ],
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              // ),
                   const SizedBox(height: 20),
                   _buildSenderName(),
                   const SizedBox(height: 20),
                   _buildSenderEmail(),
                   const SizedBox(height: 20),
+                  _buildSenderAddress(),
+                  const SizedBox(height: 20),
+                  _buildSenderPhoneNumber(),
+                  const SizedBox(height: 20),
                   _buildReceiverName(),
                   const SizedBox(height: 20),
-                  _buildReceiverPhoneNumber(),
-                  const SizedBox(height: 20),
                   _buildReceiverAddress(),
+                  const SizedBox(height: 20),
+                  _buildReceiverPhoneNumber(),
                   const SizedBox(height: 20),
                   _buildDate(),
                   const SizedBox(height: 50),

@@ -5,6 +5,8 @@ import 'package:green_app/providers/cart_provider.dart';
 import 'package:green_app/services/order_database.dart';
 import 'package:provider/provider.dart';
 
+import 'delivery_form.dart';
+
 class Shop extends StatelessWidget {
   static const String routeName= '/shop';
   const Shop({Key? key}) : super(key: key);
@@ -58,7 +60,12 @@ class Shop extends StatelessWidget {
                   SizedBox(height: 15,),
                   ElevatedButton.icon(
                     onPressed: (){
-                      database.addOrder(Provider.of<CartProvider>(context, listen: false).total);
+                      Navigator.push(context,
+                          MaterialPageRoute(
+                            builder: (context) => DeliveryForm(total: Provider.of<CartProvider>(context, listen: false).total.toString()),
+                          )
+                      );
+                      // database.addOrder(Provider.of<CartProvider>(context, listen: false).total);
                     },
                     icon: Icon(Icons.shop, size: 20,),
                     label: Text(
