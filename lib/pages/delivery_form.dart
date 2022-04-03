@@ -296,7 +296,7 @@ class _DeliveryFormState extends State<DeliveryForm> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async => false,
+      onWillPop: () async => true,
       child: Scaffold(
         appBar: AppBar(
             title: const Text("Delivery"),
