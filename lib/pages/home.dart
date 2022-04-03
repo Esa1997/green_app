@@ -10,7 +10,6 @@ import 'package:green_app/pages/shop.dart';
 
 import '../models/user_model.dart';
 import '../services/flower _item_database.dart';
-import 'edit_feedback.dart';
 
 class Home extends StatefulWidget {
 
@@ -25,8 +24,6 @@ class _HomeState extends State<Home> {
 
   User? user = FirebaseAuth.instance.currentUser;
   UserModel loggedInUser = UserModel();
-
-
   
   int _currentIndex = 0;
   final tabs = [
@@ -38,6 +35,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Home'),
@@ -101,5 +99,6 @@ class _HomeState extends State<Home> {
       ),
 
     );
+
   }
 }

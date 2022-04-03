@@ -7,6 +7,9 @@ import 'package:green_app/pages/add_flower_item.dart';
 import 'package:green_app/pages/shop.dart';
 import 'package:green_app/services/flower%20_item_database.dart';
 
+import 'delivery_history.dart';
+import 'edit_user.dart';
+
 class FlowerGrid extends StatefulWidget {
   static const String routeName= '/FlowerGrid';
 
@@ -45,7 +48,16 @@ class _FlowerGridState extends State<FlowerGrid> {
         centerTitle: true,
         title: Text('Greenery Shop'),
         actions: [
-          IconButton(onPressed: (){Navigator.of(context).pushNamed(Shop.routeName);}, icon: Icon(Icons.shopping_cart))
+          IconButton(
+              onPressed: (){
+                Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Edit_user(),
+                ));
+          },
+              icon: Icon(Icons.person, size: 30,)
+          )
         ],
       ),
       body: Padding(
@@ -61,20 +73,22 @@ class _FlowerGridState extends State<FlowerGrid> {
         animatedIcon: AnimatedIcons.menu_home,
         children: [
           SpeedDialChild(
-            child: FloatingActionButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(AddItem.routeName);
-              },
-              child: const Icon(Icons.add),
-            ),
+            child: const Icon(Icons.add, color: Colors.teal,),
+            onTap: () {
+              Navigator.of(context).pushNamed(AddItem.routeName);
+            },
           ),
           SpeedDialChild(
-            child: FloatingActionButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(Shop.routeName);
-              },
-              child: const Icon(Icons.shopping_cart),
-            ),
+            child: const Icon(Icons.shopping_cart, color: Colors.teal,),
+            onTap: () {
+              Navigator.of(context).pushNamed(Shop.routeName);
+            },
+          ),
+          SpeedDialChild(
+            child: const Icon(Icons.delivery_dining_sharp, color: Colors.teal,),
+            onTap: () {
+              Navigator.of(context).pushNamed(DeliveryHistory.routeName);
+            },
           )
         ],
       ),

@@ -6,14 +6,9 @@ import 'package:green_app/pages/add_feedback.dart';
 import 'package:green_app/pages/edit_feedback.dart';
 import '../components/feeback_card.dart';
 import '../services/review_database.dart';
-//import 'package:green_app/components/flower_card.dart';
-//import 'package:green_app/models/flower_item.dart';
-//import 'package:green_app/pages/add_flower_item.dart';
 
 
 class FeedbackGrid extends StatefulWidget {
- // static const String routeName= '/FlowerGrid';
-
 
   @override
   State<FeedbackGrid> createState() => _FeedbackGridState();
@@ -21,7 +16,7 @@ class FeedbackGrid extends StatefulWidget {
 
 class _FeedbackGridState extends State<FeedbackGrid> {
   List<FeedbackItem> itemList = [];
-  List flowerItemList = [];
+  List feedItemList = [];
 
   @override
   void initState() {
@@ -55,12 +50,7 @@ class _FeedbackGridState extends State<FeedbackGrid> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        // child: GridView.builder(
-        //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 1),
-        //     itemCount: itemList.length,
-        //     itemBuilder: (context, index) {
-        //       return FeedbackCard(flower: itemList.elementAt(index));
-        //     }),
+
         child: Column(
           children: [
             Flexible(
@@ -72,8 +62,10 @@ class _FeedbackGridState extends State<FeedbackGrid> {
                     return Card(
                       elevation: 2,
                       child: ListTile(
-                        title: Text(item.name),
-                        subtitle: Text(item.description),
+                        title: Text(item.description),
+                        subtitle: Text("Rating :"+ item.rating.toString()),
+
+
                         trailing: IconButton(icon: const Icon(Icons.edit, color: Colors.teal,),
                           onPressed: (){
                             Navigator.push(

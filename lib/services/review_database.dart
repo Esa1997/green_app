@@ -7,7 +7,7 @@ class FeedbackDatabase{
   static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   static final _collectionReference = _firestore.collection('Feedback');
 
-  Future addData(String name, String description, String url) async {
+  Future addData(String name, String description, String url, double rating) async {
     DateTime now = new DateTime.now();
     final documentReference = _collectionReference.doc(now.toString());
 
@@ -16,6 +16,7 @@ class FeedbackDatabase{
       'name': name,
       'description': description,
       'url': url,
+     'rating':rating,
 
     };
 
@@ -33,7 +34,8 @@ class FeedbackDatabase{
               id: doc["id"],
               name: doc["name"],
               description: doc["description"],
-              url: doc["url"]
+              url: doc["url"],
+              rating:doc["rating"]
           );
           itemList.add(feedback);
         });
@@ -51,7 +53,7 @@ class FeedbackDatabase{
 
 
 
-  Future updateData(String id, String name, String description, String url) async {
+  Future updateData(String id, String name, String description, String url, double rating) async {
     final documentReference = _collectionReference.doc(id);
 
     Map<String, dynamic> data = {
@@ -59,6 +61,7 @@ class FeedbackDatabase{
       'name': name,
       'description': description,
       'url': url,
+      'rating':rating,
     };
 
     return await documentReference.update(data)

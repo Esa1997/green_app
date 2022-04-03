@@ -48,16 +48,14 @@ class _AddItemState extends State<AddItem> {
       try{
         if(_formKey.currentState!.validate()){
           _formKey.currentState!.save();
-          print('Form Submitted');
 
           final ref = FirebaseStorage.instance.ref()
               .child('flowerImages')
               .child(_name! + '.jpg');
+
           await ref.putFile(_pickedImage!);
 
           _url = await ref.getDownloadURL();
-          print('Image URL: $_url');
-
           await database.addData(_name!, _price!, _description!, _url!);
         }
       } on Exception catch (error){

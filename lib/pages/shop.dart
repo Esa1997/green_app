@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:green_app/models/flower_item.dart';
 import 'package:green_app/providers/cart_provider.dart';
+import 'package:green_app/services/order_database.dart';
 import 'package:provider/provider.dart';
 
 class Shop extends StatelessWidget {
@@ -11,6 +12,8 @@ class Shop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<FlowerItem> items = Provider.of<CartProvider>(context).items;
+
+    final database = OrderDatabase();
 
     return Scaffold(
       appBar: AppBar(
@@ -54,7 +57,9 @@ class Shop extends StatelessWidget {
                     style: Theme.of(context).textTheme.headline5,),
                   SizedBox(height: 15,),
                   ElevatedButton.icon(
-                    onPressed: (){},
+                    onPressed: (){
+                      database.addOrder(Provider.of<CartProvider>(context, listen: false).total);
+                    },
                     icon: Icon(Icons.shop, size: 20,),
                     label: Text(
                       'CHECKOUT',
