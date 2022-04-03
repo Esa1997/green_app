@@ -6,9 +6,9 @@ import 'package:green_app/pages/edit_feedback.dart';
 import 'package:provider/provider.dart';
 
 class FeedbackCard extends StatelessWidget {
-  final FeedbackItem flower;
+  final FeedbackItem feed;
 
-  const FeedbackCard({Key? key, required this.flower}) : super(key: key);
+  const FeedbackCard({Key? key, required this.feed}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,20 +27,27 @@ class FeedbackCard extends StatelessWidget {
               children: [
                 Expanded(
                     child: Image.network(
-                      flower.url,
+                      feed.url,
                       width: 250,
                       height: 250,
                       fit: BoxFit.fitHeight,)
                 ),
                 Text(
-                  flower.name,
+                  feed.name,
                   style: const TextStyle(
                       fontSize: 20.0,
                       color: Colors.black, fontWeight: FontWeight.bold
                   ),
                 ),
                 Text(
-                  flower.description,
+                  feed.description,
+                  style: const TextStyle(
+                      fontSize: 20.0,
+                      color: Colors.black, fontWeight: FontWeight.bold
+                  ),
+                ),
+                Text(
+                  feed.rating.toString(),
                   style: const TextStyle(
                       fontSize: 20.0,
                       color: Colors.black, fontWeight: FontWeight.bold
@@ -57,7 +64,7 @@ class FeedbackCard extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => EditFeedbackItem(item: flower),
+                                    builder: (context) => EditFeedbackItem(item: feed),
                                   )
                               );
                             },

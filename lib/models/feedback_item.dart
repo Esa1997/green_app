@@ -5,6 +5,7 @@ class FeedbackItem{
   String name;
   String description;
   String url;
+  double rating;
 
 
   FeedbackItem({
@@ -12,6 +13,7 @@ class FeedbackItem{
     required this.name,
     required this.description,
     required this.url,
+    required this.rating,
 
   });
 
@@ -41,6 +43,7 @@ List<FeedbackItem> feedbackList = [
       name: 'Blue Rose',
       description: 'Roses with blue petals',
       url: 'https://cdn.shopify.com/s/files/1/1807/9111/products/Royal-Blue-Everlasting-Rose-Dome.jpg?v=1611101136',
+      rating: 1.0
 
   ),
   FeedbackItem(
@@ -48,13 +51,13 @@ List<FeedbackItem> feedbackList = [
       name: 'Tulips',
       description: 'Bouquet of tulips',
       url: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/close-up-of-tulips-blooming-in-field-royalty-free-image-1584131603.jpg',
-
+      rating: 1.0
   ),
   FeedbackItem(
       id: 'F1002',
       name: 'Arch',
       description: 'Bouquet of tulips',
       url: 'https://media.istockphoto.com/photos/beautiful-flower-arches-with-walkway-picture-id469258214',
-      
+      rating: 1.0
   )
 ];

@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:green_app/pages/flower_grid.dart';
 import 'package:green_app/services/review_database.dart';
@@ -19,14 +20,16 @@ class _AddFeedbackState extends State<AddFeedback> {
   final _formKey = GlobalKey<FormState>();
   final database = FeedbackDatabase();
   File? _pickedImage;
+  double rating = 0;
 
   String? _name;
   String? _description;
   String? _url;
+  double? _rating;
 
   Future pickImage() async {
     try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      final image = await ImagePicker().pickImage(source: ImageSource.camera);
       if (image == null) return;
 
       final imageTemporary = File(image.path);
@@ -57,7 +60,7 @@ class _AddFeedbackState extends State<AddFeedback> {
           _url = await ref.getDownloadURL();
           print('Image URL: $_url');
 
-          await database.addData(_name!, _description!, _url!);
+          await database.addData(_name!, _description!, _url!,_rating!);
         }
       } on Exception catch (error){
         print('Exception: $error');
@@ -177,6 +180,28 @@ class _AddFeedbackState extends State<AddFeedback> {
                           },
                         ),
                       ),
+                      SizedBox(height: 20),
+                      Padding(padding:const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            Text(
+                              'Rating: $rating',
+                              style: TextStyle(fontSize: 40,),
+                            ),
+                            SizedBox(height: 20),
+                            RatingBar.builder(
+                              minRating: 1,
+                                 itemBuilder: (context, _) => Icon(Icons.star, color: Colors.amber,),
+                                 onRatingUpdate: (rating) => setState(() {
+
+                                      this.rating = rating;
+                                      if(rating != null) _rating = rating;
+
+                                 })),
+                          ],
+                        ),
+                      ),
+
                       SizedBox(height: 20),
 
                       SizedBox(height: 20),

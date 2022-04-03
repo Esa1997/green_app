@@ -14,7 +14,6 @@ class FlowerCard extends StatelessWidget {
 
   FlowerCard({Key? key, required this.flower}) : super(key: key);
 
-  //flower component
   @override
   Widget build(BuildContext context) {
     //bool itemStatus = !Provider.of<CartProvider>(context).isItemAdded(flower);
