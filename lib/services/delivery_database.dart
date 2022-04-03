@@ -1,28 +1,43 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:green_app/models/flower_item.dart';
-
 import '../models/delivery_item.dart';
+import '../models/user_delivery.dart';
 
 class DeliveryDatabase{
   static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   static final _collectionReference = _firestore.collection('DeliveryDetails');
+  static final _collectionDeliveryReference = _firestore.collection('UserDeliveryDetails');
+  User? user = FirebaseAuth.instance.currentUser;
 
-  Future addData(String senderName, String senderEmail, String receiverName,  String receiverAddress, String receiverPhone, String date, FlowerItem flower) async {
+  Future addData(String? senderName, String? senderEmail,  String? senderAddress, String? senderPhone, String? receiverName,  String? receiverAddress, String? receiverPhone, String date, String total) async {
     DateTime now = DateTime.now();
     final documentReference = _collectionReference.doc(now.toString());
 
+    // List itemList = [];
+    // for (int i = 0; i < flowers.length; i++) {
+    //   itemList.add({
+    //     "id": flowers.toList()[i],
+    //     "name": flowers.toList()[i],
+    //     "description": flowers.toList()[i],
+    //     "url": flowers.toList()[i],
+    //     "price": flowers.toList()[i],
+    //   });
+    // }
+
     Map<String, dynamic> data = {
       'id': now.toString(),
+      'senderId': user?.uid,
       'senderName': senderName,
       'senderEmail': senderEmail,
+      'senderAddress': senderAddress,
+      'senderPhone': senderPhone,
       'receiverName': receiverName,
       'receiverAddress': receiverAddress,
       'receiverPhone': receiverPhone,
       'date': date,
-      'flower_url': flower.url,
-      'flower_name': flower.name,
-      'flower_price': flower.price
+      'total': total,
     };
 
     documentReference.set(data)
@@ -35,19 +50,20 @@ class DeliveryDatabase{
     try {
       await _collectionReference.get().then((QuerySnapshot querySnapshot) {
         querySnapshot.docs.forEach((doc) {
-          final flower = DeliveryItem(
+          if(doc["senderId"] == user?.uid){
+            final flower = DeliveryItem(
               id: doc["id"],
+              senderId: doc["senderId"],
               senderName: doc["senderName"],
               senderEmail: doc["senderEmail"],
               receiverName: doc["receiverName"],
               receiverPhone: doc["receiverPhone"],
               receiverAddress: doc["receiverAddress"],
               date: doc["date"],
-              flowerUrl: doc["flower_url"],
-              flowerName: doc["flower_name"],
-              flowerPrice: doc["flower_price"],
-          );
-          itemList.add(flower);
+              total: doc["total"],
+            );
+            itemList.add(flower);
+          }
         });
       });
       return itemList;
@@ -55,6 +71,66 @@ class DeliveryDatabase{
       print(e.toString());
       return null;
     }
+  }
+
+  Future addDeliveryDetailsData(String? id, String? senderName, String? senderEmail, String? senderAddress, String? senderPhone) async {
+    FirebaseFirestore.instance
+        .collection('UserDeliveryDetails')
+        .doc(id)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        final documentReference = _collectionDeliveryReference.doc(id);
+
+        Map<String, dynamic> data = {
+          'senderId': user?.uid,
+          'senderName': senderName,
+          'senderEmail': senderEmail,
+          'senderPhone': senderPhone,
+          'senderAddress': senderAddress,
+        };
+
+        documentReference.update(data)
+            .whenComplete(() => Fluttertoast.showToast(msg: 'Delivery details updated.'))
+            .onError((error, stackTrace) => Fluttertoast.showToast(msg: error.toString()));
+      }else{
+        DateTime now = DateTime.now();
+        final documentReference = _collectionDeliveryReference.doc(now.toString());
+
+        Map<String, dynamic> data = {
+          'id': now.toString(),
+          'senderId': user?.uid,
+          'senderName': senderName,
+          'senderEmail': senderEmail,
+          'senderPhone': senderPhone,
+          'senderAddress': senderAddress,
+        };
+
+        documentReference.set(data)
+            .whenComplete(() => Fluttertoast.showToast(msg: 'Success'))
+            .onError((error, stackTrace) => Fluttertoast.showToast(msg: error.toString()));
+      }
+    });
+  }
+
+  getUserDeliveryDetails() async {
+    UserDelivery? deliveryUser;
+
+    await _collectionDeliveryReference.get().then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        if(doc["senderId"] == user?.uid ){
+          deliveryUser = UserDelivery(
+              id: doc["id"],
+              senderId: doc["senderId"],
+              senderName:doc["senderName"],
+              senderEmail:doc["senderEmail"],
+              senderPhone:doc['senderPhone'],
+              senderAddress:doc['senderAddress']);
+        }
+      });
+    });
+    return deliveryUser;
+
   }
 
   Future updateData(String id, String senderName, String senderEmail, String receiverName,  String receiverAddress, String receiverPhone, String date) async {
@@ -72,6 +148,14 @@ class DeliveryDatabase{
 
     return await documentReference.update(data)
         .whenComplete(() => Fluttertoast.showToast(msg: 'Delivery details updated.'))
+        .onError((error, stackTrace) => Fluttertoast.showToast(msg: error.toString()));
+  }
+
+  Future deleteDeliveryData({required String? id}) async {
+    final documentReference = _collectionDeliveryReference.doc(id);
+
+    return await documentReference.delete()
+        .whenComplete(() => Fluttertoast.showToast(msg: 'Details Deleted.'))
         .onError((error, stackTrace) => Fluttertoast.showToast(msg: error.toString()));
   }
 

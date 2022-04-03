@@ -5,8 +5,10 @@ import 'package:green_app/components/flower_card.dart';
 import 'package:green_app/models/flower_item.dart';
 import 'package:green_app/pages/add_flower_item.dart';
 import 'package:green_app/pages/shop.dart';
+import 'package:green_app/pages/user_delivery_details.dart';
 import 'package:green_app/services/flower%20_item_database.dart';
 
+import 'delivery_form.dart';
 import 'delivery_history.dart';
 import 'edit_user.dart';
 
@@ -87,7 +89,7 @@ class _FlowerGridState extends State<FlowerGrid> {
             },
           ),
           SpeedDialChild(
-            child: const Icon(Icons.delivery_dining_sharp, color: Colors.teal,),
+            child: const Icon(Icons.history_outlined, color: Colors.teal,),
             onTap: () {
               //Navigator.of(context).pushNamed(DeliveryHistory.routeName);
             },
@@ -96,6 +98,12 @@ class _FlowerGridState extends State<FlowerGrid> {
             child: const Icon(Icons.history, color: Colors.teal,),
             onTap: () {
               Navigator.of(context).pushNamed(DeliveryHistory.routeName);
+            },
+          ),
+          SpeedDialChild(
+            child: const Icon(Icons.delivery_dining_sharp, color: Colors.teal,),
+            onTap: () {
+              Navigator.of(context).pushNamed(UserDeliveryDetails.routeName);
             },
           )
         ],

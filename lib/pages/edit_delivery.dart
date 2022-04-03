@@ -23,9 +23,6 @@ class _EditDeliveryState extends State<EditDelivery> {
   String? _receiverAddress;
   String? _receiverPhoneNumber;
   String? _date;
-  String? _flowerName;
-  String? _flowerUrl;
-  double? _flowerPrice;
 
   var date = TextEditingController();
   DateTime selectedDate = DateTime.now();
@@ -46,9 +43,6 @@ class _EditDeliveryState extends State<EditDelivery> {
       _receiverAddress = widget.item.receiverAddress;
       _receiverPhoneNumber = widget.item.receiverPhone;
       _date = widget.item.date;
-      _flowerName = widget.item.flowerName;
-      _flowerUrl = widget.item.flowerUrl;
-      _flowerPrice = widget.item.flowerPrice;
       date.text = widget.item.date;
     });
   }
@@ -245,45 +239,45 @@ class _EditDeliveryState extends State<EditDelivery> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Card(
-                  elevation: 5,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Row(
-                      children: [
-                        Image.network(
-                          _flowerUrl!,
-                          width: 100,
-                          height: 100,
-                          fit: BoxFit.fitHeight,),
-                        const SizedBox(width: 20),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              _flowerName!,
-                              style: const TextStyle(
-                                fontSize: 20.0,
-                                color: Colors.black, fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(height: 5),
-                            Text(
-                              _flowerPrice.toString(),
-                              style: TextStyle(
-                                  fontSize: 14.0,
-                                  color: Colors.grey[600], fontWeight: FontWeight.bold
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                // Card(
+                //   elevation: 5,
+                //   shape: RoundedRectangleBorder(
+                //       borderRadius: BorderRadius.circular(20)
+                //   ),
+                //   child: Padding(
+                //     padding: const EdgeInsets.all(10),
+                //     child: Row(
+                //       children: [
+                //         Image.network(
+                //           _flowerUrl!,
+                //           width: 100,
+                //           height: 100,
+                //           fit: BoxFit.fitHeight,),
+                //         const SizedBox(width: 20),
+                //         Column(
+                //           crossAxisAlignment: CrossAxisAlignment.start,
+                //           children: [
+                //             Text(
+                //               _flowerName!,
+                //               style: const TextStyle(
+                //                 fontSize: 20.0,
+                //                 color: Colors.black, fontWeight: FontWeight.bold,
+                //               ),
+                //             ),
+                //             const SizedBox(height: 5),
+                //             Text(
+                //               _flowerPrice.toString(),
+                //               style: TextStyle(
+                //                   fontSize: 14.0,
+                //                   color: Colors.grey[600], fontWeight: FontWeight.bold
+                //               ),
+                //             ),
+                //           ],
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
                 const SizedBox(height: 20),
                 _buildSenderName(),
                 const SizedBox(height: 20),

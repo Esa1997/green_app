@@ -41,14 +41,7 @@ class _DeliveryHistoryState extends State<DeliveryHistory> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('Delivery History'),
-        actions: [
-          IconButton(
-              onPressed: (){
-                //Navigator.of(context).pushNamed();
-                },
-              icon: Icon(Icons.add_circle, size: 27,))
-        ],
+        title: const Text('Order History')
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
