@@ -17,6 +17,8 @@ class DeliveryForm extends StatefulWidget {
 class _DeliveryFormState extends State<DeliveryForm> {
   String? _senderName;
   String? _senderEmail;
+  String? _senderAddress;
+  String? _senderPhone;
   String? _receiverName;
   String? _receiverAddress;
   String? _receiverPhoneNumber;
@@ -81,7 +83,7 @@ class _DeliveryFormState extends State<DeliveryForm> {
         return null;
       },
       onSaved: (String? value) {
-        userNameController?.text = value!;
+        _senderName = value;
       },
     );
   }
@@ -108,7 +110,7 @@ class _DeliveryFormState extends State<DeliveryForm> {
         return null;
       },
       onSaved: (String? value) {
-        senderEmailController?.text = value!;
+        _senderEmail = value;
       },
     );
   }
@@ -152,7 +154,7 @@ class _DeliveryFormState extends State<DeliveryForm> {
         return null;
       },
       onSaved: (String? value) {
-        senderAddressController?.text = value!;
+        _senderAddress = value;
       },
     );
   }
@@ -197,7 +199,7 @@ class _DeliveryFormState extends State<DeliveryForm> {
         return null;
       },
       onSaved: (String? value) {
-        senderPhoneNumberController?.text = value!;
+        _senderPhone = value;
       },
     );
   }
@@ -274,10 +276,10 @@ class _DeliveryFormState extends State<DeliveryForm> {
 
     try{
       await database.addData(
-          userNameController?.text.toString(),
-          senderEmailController?.text.toString(),
-          senderAddressController?.text.toString(),
-          senderPhoneNumberController?.text.toString(),
+          _senderName,
+          _senderEmail,
+          _senderAddress,
+          _senderPhone,
           _receiverName,
           _receiverAddress,
           _receiverPhoneNumber,
