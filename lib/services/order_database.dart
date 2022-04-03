@@ -22,7 +22,7 @@ class OrderDatabase{
     };
 
     documentReference.set(data)
-        .whenComplete(() => Fluttertoast.showToast(msg: 'Order Placed.'))
+        .whenComplete(() => Fluttertoast.showToast(msg: 'Order Placed Successfully!!.'))
         .onError((error, stackTrace) => Fluttertoast.showToast(msg: error.toString()));
   }
 }

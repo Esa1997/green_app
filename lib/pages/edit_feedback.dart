@@ -27,13 +27,10 @@ class _EditFeedbackItemState extends State<EditFeedbackItem> {
   final database = FeedbackDatabase();
   File? _pickedImage;
 
-  double rating = 0;
-
   String? _id;
   String? _name;
   String? _description;
   String? _url;
-  double? _rating;
 
   @override
   void initState() {
@@ -48,13 +45,12 @@ class _EditFeedbackItemState extends State<EditFeedbackItem> {
       _name = widget.item.name;
       _description = widget.item.description;
       _url = widget.item.url;
-      _rating =widget.item.rating;
     });
   }
 
   Future pickImage() async {
     try {
-      final image = await ImagePicker().pickImage(source: ImageSource.camera);
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (image == null) return;
 
       final imageTemporary = File(image.path);
@@ -69,7 +65,7 @@ class _EditFeedbackItemState extends State<EditFeedbackItem> {
 
   onUpdate() async {
     if(_pickedImage == null && _url == null){
-      Fluttertoast.showToast(msg: 'Select an Image from Camera');
+      Fluttertoast.showToast(msg: 'Select an Image from Gallery');
     }
     else{
       try{

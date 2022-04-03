@@ -19,7 +19,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   // string for displaying the error Message
   String? errorMessage;
-
+  String? _date;
+  DateTime selectedDate = DateTime.now();
 
   // our form key
   final _formKey = GlobalKey<FormState>();
@@ -27,10 +28,57 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final firstNameEditingController = new TextEditingController();
   final secondNameEditingController = new TextEditingController();
   final emailEditingController = new TextEditingController();
-  final dateofbirthEditingController = new TextEditingController();
+ // final dateofbirthEditingController = new TextEditingController();
   final passwordEditingController = new TextEditingController();
   final confirmPasswordEditingController = new TextEditingController();
 
+  var dateofbirthEditingController = TextEditingController();
+
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(1960),
+        lastDate: DateTime(2030));
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        dateofbirthEditingController.text = "${picked.day}-${picked.month}-${picked.year}";
+      });
+    }
+  }
+
+  Widget _buildDate() {
+    return GestureDetector(
+      onTap: () {
+        _selectDate(context);
+      },
+
+      child: TextFormField(
+         // autofocus: false,
+          enabled: false,
+          controller: dateofbirthEditingController,
+          validator: (String? value) {
+                if (value == null || value.isEmpty) {
+                  return 'Date is Required';
+                }
+                return null;
+              },
+
+          onSaved: (String? value) {
+            _date = value;
+          },
+          textInputAction: TextInputAction.next,
+          decoration: InputDecoration(
+            prefixIcon: Icon(Icons.calendar_today),
+            contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+            hintText: "Date of Birth",
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          )),
+    );
+  }
   @override
   Widget build(BuildContext context) {
     //first name field
@@ -235,20 +283,21 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     SizedBox(
-                        height: 180,
+                        height: 150,
                         child: Image.asset(
                           "assets/images/logo.jpg",
                           fit: BoxFit.contain,
                         )),
-                    SizedBox(height: 45),
+                    SizedBox(height: 40),
                     firstNameField,
                     SizedBox(height: 15),
                     secondNameField,
                     SizedBox(height: 15),
                     emailField,
                     SizedBox(height: 15),
-                    dateOfBirthfield,
-                    SizedBox(height: 20),
+                    //dateOfBirthfield,
+                    _buildDate(),
+                    SizedBox(height: 15),
                     passwordField,
                     SizedBox(height: 15),
                     confirmPasswordField,

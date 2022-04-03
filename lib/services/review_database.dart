@@ -21,7 +21,7 @@ class FeedbackDatabase{
     };
 
     documentReference.set(data)
-        .whenComplete(() => Fluttertoast.showToast(msg: 'Feedback Added.'))
+        .whenComplete(() => Fluttertoast.showToast(msg: 'Feedback Submitted Successfully.'))
         .onError((error, stackTrace) => Fluttertoast.showToast(msg: error.toString()));
   }
 

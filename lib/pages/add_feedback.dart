@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:green_app/pages/feedback_grid.dart';
 import 'package:green_app/pages/flower_grid.dart';
 import 'package:green_app/services/review_database.dart';
 import 'package:image_picker/image_picker.dart';
@@ -27,6 +28,24 @@ class _AddFeedbackState extends State<AddFeedback> {
   String? _url;
   double? _rating;
 
+  // Future pickImage() async {
+  //   try {
+  //     final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+  //     if (image == null) return;
+  //
+  //     final imageTemporary = File(image.path);
+  //     setState(() {
+  //       this._pickedImage = imageTemporary;
+  //     });
+  //   } on PlatformException catch (e) {
+  //     // TODO
+  //     print('Failed to pick image: $e');
+  //   }
+  // }
+  File? image;
+
+  //Camera roll
+
   Future pickImage() async {
     try {
       final image = await ImagePicker().pickImage(source: ImageSource.camera);
@@ -42,9 +61,10 @@ class _AddFeedbackState extends State<AddFeedback> {
     }
   }
 
+
   onSaved() async {
     if(_pickedImage == null){
-      Fluttertoast.showToast(msg: 'Select an Image from Gallery');
+      Fluttertoast.showToast(msg: 'Select an Image from Camera roll');
     }
     else{
       try{
@@ -66,16 +86,15 @@ class _AddFeedbackState extends State<AddFeedback> {
         print('Exception: $error');
       } finally {
         // TODO
-        // Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //       builder: (context) => FlowerGrid(),
-        //     )
-        // );
+        Navigator.push(
+          context,
+           MaterialPageRoute(
+             builder: (context) => FeedbackGrid(),
+           )
+        );
       }
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -142,7 +161,7 @@ class _AddFeedbackState extends State<AddFeedback> {
                               border: OutlineInputBorder(
                                   borderSide: BorderSide(color: Colors.teal)
                               ),
-                              labelText: 'Name'
+                              labelText: 'Nickname'
                           ),
                           validator: (value) {
                             if(value == null || value.isEmpty){
