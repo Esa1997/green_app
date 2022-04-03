@@ -14,7 +14,7 @@ import '../services/flower _item_database.dart';
 import '../services/review_database.dart';
 
 class EditFeedbackItem extends StatefulWidget {
- // static const String routeName = '/edit_item';
+  // static const String routeName = '/edit_item';
   FeedbackItem item;
 
   EditFeedbackItem({Key? key, required this.item}) : super(key: key);
@@ -27,10 +27,13 @@ class _EditFeedbackItemState extends State<EditFeedbackItem> {
   final database = FeedbackDatabase();
   File? _pickedImage;
 
+  double rating = 0;
+
   String? _id;
   String? _name;
   String? _description;
   String? _url;
+  double? _rating;
 
   @override
   void initState() {
@@ -45,12 +48,13 @@ class _EditFeedbackItemState extends State<EditFeedbackItem> {
       _name = widget.item.name;
       _description = widget.item.description;
       _url = widget.item.url;
+      _rating =widget.item.rating;
     });
   }
 
   Future pickImage() async {
     try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      final image = await ImagePicker().pickImage(source: ImageSource.camera);
       if (image == null) return;
 
       final imageTemporary = File(image.path);
@@ -65,7 +69,7 @@ class _EditFeedbackItemState extends State<EditFeedbackItem> {
 
   onUpdate() async {
     if(_pickedImage == null && _url == null){
-      Fluttertoast.showToast(msg: 'Select an Image from Gallery');
+      Fluttertoast.showToast(msg: 'Select an Image from Camera');
     }
     else{
       try{

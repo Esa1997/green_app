@@ -89,12 +89,6 @@ class _FlowerGridState extends State<FlowerGrid> {
             },
           ),
           SpeedDialChild(
-            child: const Icon(Icons.history_outlined, color: Colors.teal,),
-            onTap: () {
-              //Navigator.of(context).pushNamed(DeliveryHistory.routeName);
-            },
-          ),
-          SpeedDialChild(
             child: const Icon(Icons.history, color: Colors.teal,),
             onTap: () {
               Navigator.of(context).pushNamed(DeliveryHistory.routeName);
