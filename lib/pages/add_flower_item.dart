@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -60,7 +61,10 @@ class _AddItemState extends State<AddItem> {
           await ref.putFile(_pickedImage!);
 
           _url = await ref.getDownloadURL();
-          await database.addData(_name!, _price!, _description!, _url!);
+
+          final User? user = FirebaseAuth.instance.currentUser;
+          String? user_id = user?.uid;
+          await database.addData(user_id!, _name!, _price!, _description!, _url!);
 
           //navigate to home page
           Navigator.push(

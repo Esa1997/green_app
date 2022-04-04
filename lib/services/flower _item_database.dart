@@ -8,8 +8,8 @@ class FlowerItemDatabase{
   static final _collectionReference = _firestore.collection('FlowerDetails');
   static final User? user = FirebaseAuth.instance.currentUser;
 
-  Future addData(String name, double price, String description, String url) async {
-    String? user_id = user?.uid.toString();
+  Future addData(String user_id, String name, double price, String description, String url) async {
+//    String? user_id = user?.uid.toString();
     final documentReference = _collectionReference.doc(user_id);
 
     //map flower details into a Map

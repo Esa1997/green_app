@@ -254,11 +254,12 @@ class _EditFeedbackItemState extends State<EditFeedbackItem> {
                         child: Column(
                           children: [
                             Text(
-                              'Rating: $rating',
+                              'Rating: $_rating',
                               style: TextStyle(fontSize: 40,),
                             ),
                             SizedBox(height: 20),
                             RatingBar.builder(
+                                initialRating: widget.item.rating,
                                 minRating: 1,
                                 itemBuilder: (context, _) => Icon(Icons.star, color: Colors.amber,),
                                 onRatingUpdate: (rating) => setState(() {
