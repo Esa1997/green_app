@@ -61,12 +61,12 @@ class FeedbackCard extends StatelessWidget {
                       children: [
                         IconButton(
                             onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => EditFeedbackItem(item: feed),
-                                  )
-                              );
+//                              Navigator.push(
+//                                  context,
+//                                  MaterialPageRoute(
+//                                    builder: (context) => EditFeedbackItem(item: feed),
+//                                  )
+//                              );
                             },
                             icon: Icon(Icons.edit, color: Colors.teal,size: 30,)
                         ),

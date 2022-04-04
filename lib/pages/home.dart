@@ -68,23 +68,23 @@ class _HomeState extends State<Home> {
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => FeedbackGrid(),
-                    )
-                );
+                // Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //       builder: (context) => FeedbackGrid(),
+                //     )
+                // );
               },
               child: Text('Thamashi'),
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => AddFeedback(),
-                    )
-                );
+                // Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //       builder: (context) => AddFeedback(),
+                //     )
+                // );
               },
               child: Text('Prasadi'),
             ),

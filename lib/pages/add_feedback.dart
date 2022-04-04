@@ -6,12 +6,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:green_app/pages/feedback_grid.dart';
 import 'package:green_app/pages/flower_grid.dart';
 import 'package:green_app/services/review_database.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../models/flower_item.dart';
+
 class AddFeedback extends StatefulWidget {
   //static const String routeName = '/add_feedback';
+  String item_id;
+
+  AddFeedback({Key? key, required this.item_id}) : super(key: key);
   @override
   _AddFeedbackState createState() => _AddFeedbackState();
 }
@@ -26,6 +32,24 @@ class _AddFeedbackState extends State<AddFeedback> {
   String? _description;
   String? _url;
   double? _rating;
+
+  // Future pickImage() async {
+  //   try {
+  //     final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+  //     if (image == null) return;
+  //
+  //     final imageTemporary = File(image.path);
+  //     setState(() {
+  //       this._pickedImage = imageTemporary;
+  //     });
+  //   } on PlatformException catch (e) {
+  //     // TODO
+  //     print('Failed to pick image: $e');
+  //   }
+  // }
+  File? image;
+
+  //Camera roll
 
   Future pickImage() async {
     try {
@@ -42,9 +66,12 @@ class _AddFeedbackState extends State<AddFeedback> {
     }
   }
 
+
   onSaved() async {
+    String id = widget.item_id;
+
     if(_pickedImage == null){
-      Fluttertoast.showToast(msg: 'Select an Image from Gallery');
+      Fluttertoast.showToast(msg: 'Select an Image from Camera roll');
     }
     else{
       try{
@@ -60,22 +87,21 @@ class _AddFeedbackState extends State<AddFeedback> {
           _url = await ref.getDownloadURL();
           print('Image URL: $_url');
 
-          await database.addData(_name!, _description!, _url!,_rating!);
+          await database.addData(id, _name!, _description!, _url!,_rating!);
         }
       } on Exception catch (error){
         print('Exception: $error');
       } finally {
         // TODO
-        // Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //       builder: (context) => FlowerGrid(),
-        //     )
-        // );
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => FeedbackGrid(item_id: widget.item_id),
+            )
+        );
       }
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -142,7 +168,7 @@ class _AddFeedbackState extends State<AddFeedback> {
                               border: OutlineInputBorder(
                                   borderSide: BorderSide(color: Colors.teal)
                               ),
-                              labelText: 'Name'
+                              labelText: 'Nickname'
                           ),
                           validator: (value) {
                             if(value == null || value.isEmpty){
@@ -190,14 +216,14 @@ class _AddFeedbackState extends State<AddFeedback> {
                             ),
                             SizedBox(height: 20),
                             RatingBar.builder(
-                              minRating: 1,
-                                 itemBuilder: (context, _) => Icon(Icons.star, color: Colors.amber,),
-                                 onRatingUpdate: (rating) => setState(() {
+                                minRating: 1,
+                                itemBuilder: (context, _) => Icon(Icons.star, color: Colors.amber,),
+                                onRatingUpdate: (rating) => setState(() {
 
-                                      this.rating = rating;
-                                      if(rating != null) _rating = rating;
+                                  this.rating = rating;
+                                  if(rating != null) _rating = rating;
 
-                                 })),
+                                })),
                           ],
                         ),
                       ),
