@@ -14,7 +14,7 @@ import 'login_screen.dart';
 
 class Edit_user extends StatefulWidget {
 
-  // UserModel user;
+ // UserModel user;
   Edit_user({Key? key}) : super(key: key);
 
   @override
@@ -49,15 +49,15 @@ class _Edit_userState extends State<Edit_user> {
   @override
   void initState() {
     super.initState();
-    //  _user_database.readData();
-    // Future<UserModel?> users = getUserDetails();
-    SetUserDetails();
+  //  _user_database.readData();
+  // Future<UserModel?> users = getUserDetails();
+   SetUserDetails();
   }
 
-  void SetUserDetails() async{
-    loggedInUser = await _user_database.readData();
+   void SetUserDetails() async{
+     loggedInUser = await _user_database.readData();
 
-    setState(() {
+     setState(() {
       print("Set details");
       print(loggedInUser?.firstName);
 
@@ -253,7 +253,7 @@ class _Edit_userState extends State<Edit_user> {
               .size
               .width,
           onPressed: () {
-            // onDelete();
+           // onDelete();
             showAlertDialog(context);
 
           },

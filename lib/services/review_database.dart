@@ -7,16 +7,16 @@ class FeedbackDatabase{
   static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   static final _collectionReference = _firestore.collection('Feedback');
 
-  Future addData(String name, String description, String url, double rating) async {
+  Future addData(String item_id, String name, String description, String url, double rating) async {
     DateTime now = new DateTime.now();
-    final documentReference = _collectionReference.doc(now.toString());
+    final documentReference = _firestore.collection(item_id).doc(now.toString());
 
     Map<String, dynamic> data = {
       'id': now.toString(),
       'name': name,
       'description': description,
       'url': url,
-     'rating':rating,
+      'rating':rating,
 
     };
 
@@ -25,10 +25,10 @@ class FeedbackDatabase{
         .onError((error, stackTrace) => Fluttertoast.showToast(msg: error.toString()));
   }
 
-  Future readData() async {
+  Future readData(String item_id) async {
     List<FeedbackItem> itemList = [];
     try {
-      await _collectionReference.get().then((QuerySnapshot querySnapshot) {
+      await _firestore.collection(item_id).get().then((QuerySnapshot querySnapshot) {
         querySnapshot.docs.forEach((doc) {
           final feedback = FeedbackItem(
               id: doc["id"],
@@ -53,8 +53,8 @@ class FeedbackDatabase{
 
 
 
-  Future updateData(String id, String name, String description, String url, double rating) async {
-    final documentReference = _collectionReference.doc(id);
+  Future updateData(String item_id, String id, String name, String description, String url, double rating) async {
+    final documentReference = _firestore.collection(item_id).doc(id);
 
     Map<String, dynamic> data = {
       'id': id,
@@ -69,8 +69,8 @@ class FeedbackDatabase{
         .onError((error, stackTrace) => Fluttertoast.showToast(msg: error.toString()));
   }
 
-  Future deleteData({required String id}) async {
-    final documentReference = _collectionReference.doc(id);
+  Future deleteData({required String item_id, required String id}) async {
+    final documentReference = _firestore.collection(item_id).doc(id);
 
     return await documentReference.delete()
         .whenComplete(() => Fluttertoast.showToast(msg: 'Feedback Deleted.'))

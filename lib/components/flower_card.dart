@@ -45,11 +45,11 @@ class FlowerCard extends StatelessWidget {
                 ),
                 SizedBox(height: 5,),
                 Text(
-                    flower.price.toString(),
-                    style: TextStyle(
-                        fontSize: 14.0,
-                        color: Colors.grey[600], fontWeight: FontWeight.bold
-                    ),
+                  flower.price.toString(),
+                  style: TextStyle(
+                      fontSize: 14.0,
+                      color: Colors.grey[600], fontWeight: FontWeight.bold
+                  ),
                 ),
                 ButtonBar(
                   alignment: MainAxisAlignment.spaceEvenly,
@@ -79,7 +79,7 @@ class FlowerCard extends StatelessWidget {
                               Fluttertoast.showToast(msg: 'Item added to cart');
                               Navigator.of(context).pushNamed(Shop.routeName);
 
-                              } ,
+                            } ,
 
                             icon: Icon(Icons.add_shopping_cart, color: Colors.teal,size: 30,)
                         ),
@@ -87,10 +87,10 @@ class FlowerCard extends StatelessWidget {
                             onPressed: () {
                               //navigate to the selected flower items feedback list
                               Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => FeedbackGrid(),
-                                  )
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => FeedbackGrid(item_id: flower.id)
+                                ),
                               );
                             },
                             icon: Icon(Icons.comment, color: Colors.teal,size: 30,)

@@ -16,8 +16,9 @@ import '../services/review_database.dart';
 class EditFeedbackItem extends StatefulWidget {
   // static const String routeName = '/edit_item';
   FeedbackItem item;
+  String item_id;
 
-  EditFeedbackItem({Key? key, required this.item}) : super(key: key);
+  EditFeedbackItem({Key? key, required this.item, required this.item_id}) : super(key: key);
   @override
   _EditFeedbackItemState createState() => _EditFeedbackItemState();
 }
@@ -68,6 +69,7 @@ class _EditFeedbackItemState extends State<EditFeedbackItem> {
   }
 
   onUpdate() async {
+    String item_id = widget.item_id;
     if(_pickedImage == null && _url == null){
       Fluttertoast.showToast(msg: 'Select an Image from Camera');
     }
@@ -87,7 +89,7 @@ class _EditFeedbackItemState extends State<EditFeedbackItem> {
             print('Image URL: $_url');
           }
 
-          await database.updateData(_id!, _name!, _description!, _url!,_rating!);
+          await database.updateData(item_id, _id!, _name!, _description!, _url!,_rating!);
         }
       } on Exception catch (error){
         print('Exception: $error');
@@ -96,7 +98,7 @@ class _EditFeedbackItemState extends State<EditFeedbackItem> {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => FeedbackGrid(),
+              builder: (context) => FeedbackGrid(item_id: item_id),
             )
         );
       }
@@ -104,8 +106,10 @@ class _EditFeedbackItemState extends State<EditFeedbackItem> {
   }
 
   onDelete() async {
+    String item_id = widget.item_id;
+
     try {
-      await database.deleteData(id: _id!);
+      await database.deleteData(item_id: item_id, id: _id!);
     } on Exception catch (e) {
       // TODO
     } finally {
@@ -113,7 +117,7 @@ class _EditFeedbackItemState extends State<EditFeedbackItem> {
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => FeedbackGrid(),
+            builder: (context) => FeedbackGrid(item_id: item_id),
           )
       );
     }
