@@ -38,6 +38,7 @@ class _EditItemState extends State<EditItem> {
     getItemDetails();
   }
 
+  //initial form fields using the selected flower items details
   void getItemDetails(){
     setState(() {
       _id = widget.item.id;
@@ -50,9 +51,11 @@ class _EditItemState extends State<EditItem> {
 
   Future pickImage() async {
     try {
+      //select image from gallery
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (image == null) return;
 
+      //display selected image
       final imageTemporary = File(image.path);
       setState(() {
         this._pickedImage = imageTemporary;
@@ -63,7 +66,9 @@ class _EditItemState extends State<EditItem> {
     }
   }
 
+  //implement update function when update button is pressed
   onUpdate() async {
+    //validate all fields including image and submit form
     if(_pickedImage == null && _url == null){
       Fluttertoast.showToast(msg: 'Select an Image from Gallery');
     }
@@ -73,6 +78,7 @@ class _EditItemState extends State<EditItem> {
           _formKey.currentState!.save();
           print('Form Submitted');
 
+          //upload selected image to firebase storage and download it's url
           if(_pickedImage != null){
             final ref = FirebaseStorage.instance.ref()
                 .child('flowerImages')
@@ -84,21 +90,22 @@ class _EditItemState extends State<EditItem> {
           }
 
           await database.updateData(_id!, _name!, _price!, _description!, _url!);
+
+          //navigate to home page
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => FlowerGrid(),
+              )
+          );
         }
       } on Exception catch (error){
         print('Exception: $error');
-      } finally {
-        // TODO
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => FlowerGrid(),
-            )
-        );
       }
     }
   }
 
+  //implement delete function when delete button is pressed
   onDelete() async {
     try {
       await database.deleteData(id: _id!);
@@ -115,8 +122,7 @@ class _EditItemState extends State<EditItem> {
     }
   }
 
-
-
+  //build edit flower item page
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -132,7 +138,7 @@ class _EditItemState extends State<EditItem> {
                   child: Column(
                     children: [
                       SizedBox(height: 20),
-                      _pickedImage != null ? Stack(
+                      _pickedImage != null ? Stack( // display selected image
                         children: [
                           ClipOval(
                             child: Material(
@@ -166,7 +172,7 @@ class _EditItemState extends State<EditItem> {
                         ],
                       ): Stack(
                         children: [
-                          ClipOval(
+                          ClipOval( //display when image not selected
                             child: Material(
                               color: Colors.transparent,
                               child: Image.network(_url!, width: 140, height: 140,)
@@ -193,7 +199,7 @@ class _EditItemState extends State<EditItem> {
                         ],
                       ),
                       SizedBox(height: 10),
-                      Padding(
+                      Padding( // name input field
                         padding: const EdgeInsets.all(12.0),
                         child: TextFormField(
                           decoration: const InputDecoration(
@@ -218,7 +224,7 @@ class _EditItemState extends State<EditItem> {
                         ),
                       ),
                       SizedBox(height: 10),
-                      Padding(
+                      Padding( // price input field
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
                           decoration: const InputDecoration(
@@ -243,7 +249,7 @@ class _EditItemState extends State<EditItem> {
                         ),
                       ),
                       SizedBox(height: 10),
-                      Padding(
+                      Padding( // description input field
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
                           decoration: const InputDecoration(
@@ -271,10 +277,10 @@ class _EditItemState extends State<EditItem> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          ElevatedButton.icon(
+                          ElevatedButton.icon( //delete flower item button
                             onPressed: () {
                               showDialog(context: context, builder: (BuildContext context) {
-                                  return AlertDialog(
+                                  return AlertDialog( //Alert dialog box
                                     title: Text("Alert"),
                                     content: Text("Are you sure you want to delete this Item?"),
                                     actions: [
@@ -309,7 +315,7 @@ class _EditItemState extends State<EditItem> {
                             ),
                           ),
                           SizedBox(width: 40,),
-                          ElevatedButton.icon(
+                          ElevatedButton.icon( //update flower item button
                             onPressed: onUpdate,
                             icon: Icon(Icons.edit, size: 25,),
                             label: Text(

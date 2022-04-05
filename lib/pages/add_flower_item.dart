@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -27,9 +28,11 @@ class _AddItemState extends State<AddItem> {
 
   Future pickImage() async {
     try {
+      //select image from gallery
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (image == null) return;
 
+      //display selected image
       final imageTemporary = File(image.path);
       setState(() {
         this._pickedImage = imageTemporary;
@@ -41,6 +44,7 @@ class _AddItemState extends State<AddItem> {
   }
 
   onSaved() async {
+    //validate all fields including image and submit form
     if(_pickedImage == null){
       Fluttertoast.showToast(msg: 'Select an Image from Gallery');
     }
@@ -49,6 +53,7 @@ class _AddItemState extends State<AddItem> {
         if(_formKey.currentState!.validate()){
           _formKey.currentState!.save();
 
+          //upload selected image to firebase storage and download it's url
           final ref = FirebaseStorage.instance.ref()
               .child('flowerImages')
               .child(_name! + '.jpg');
@@ -56,22 +61,28 @@ class _AddItemState extends State<AddItem> {
           await ref.putFile(_pickedImage!);
 
           _url = await ref.getDownloadURL();
-          await database.addData(_name!, _price!, _description!, _url!);
+
+          final User? user = FirebaseAuth.instance.currentUser;
+          String? user_id = user?.uid;
+          await database.addData(user_id!, _name!, _price!, _description!, _url!);
+
+          //navigate to home page
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => FlowerGrid(),
+              )
+          );
         }
       } on Exception catch (error){
         print('Exception: $error');
-      } finally {
-        // TODO
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => FlowerGrid(),
-            )
-        );
       }
+
     }
   }
 
+
+  //build add flower item page
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,7 +98,7 @@ class _AddItemState extends State<AddItem> {
                   child: Column(
                     children: [
                       SizedBox(height: 20),
-                      _pickedImage != null ? Stack(
+                      _pickedImage != null ? Stack( //display selected image
                         children: [
                           ClipOval(
                             child: Material(
@@ -119,7 +130,7 @@ class _AddItemState extends State<AddItem> {
                               )
                           ),
                         ],
-                      ): CircleAvatar(
+                      ): CircleAvatar( //display when image is not selected
                         radius: 80,
                         child: InkWell(
                           child: Icon(
@@ -131,7 +142,7 @@ class _AddItemState extends State<AddItem> {
                         ),
                       ),
                       SizedBox(height: 10),
-                      Padding(
+                      Padding( //name input field
                         padding: const EdgeInsets.all(12.0),
                         child: TextFormField(
                           decoration: const InputDecoration(
@@ -154,7 +165,7 @@ class _AddItemState extends State<AddItem> {
                         ),
                       ),
                       SizedBox(height: 10),
-                      Padding(
+                      Padding( //price input field
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
                           decoration: const InputDecoration(
@@ -177,7 +188,7 @@ class _AddItemState extends State<AddItem> {
                         ),
                       ),
                       SizedBox(height: 10),
-                      Padding(
+                      Padding( //description input field
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
                           decoration: const InputDecoration(
@@ -202,7 +213,7 @@ class _AddItemState extends State<AddItem> {
                       SizedBox(height: 20),
 
                       SizedBox(height: 20),
-                      ElevatedButton.icon(
+                      ElevatedButton.icon( //add item button
                         onPressed: onSaved,
                         icon: Icon(Icons.playlist_add, size: 30,),
                         label: Text(
@@ -225,42 +236,4 @@ class _AddItemState extends State<AddItem> {
     );
   }
 
-  Widget FlowerImage(){
-    return Center(
-      child: Stack(
-        children: [
-          ClipOval(
-            child: Material(
-              color: Colors.transparent ,
-              child: Ink.image(
-                image: NetworkImage('https://media.istockphoto.com/vectors/picture-icon-vector-id931643150?k=20&m=931643150&s=170667a&w=0&h=e2cJ0QZTdfNcQ_f2V6ll_aWfLGJiHMyy5IBwmcPHgyU='),
-                fit: BoxFit.cover,
-                width: 128,
-                height: 128,
-                child: InkWell(onTap: (){},),
-              ),
-            ),
-          ),
-          Positioned(
-              bottom: 0,
-              right: 4,
-              child: ClipOval(
-                child: Container(
-                  padding: EdgeInsets.all(8),
-                  color: Colors.teal,
-                  child: InkWell(
-                    child: Icon(
-                      Icons.add_a_photo,
-                      color: Colors.white,
-                      size: 20,
-                    ),
-                    onTap: pickImage,
-                  ),
-                ),
-              )
-          ),
-        ],
-      ),
-    );
-  }
 }

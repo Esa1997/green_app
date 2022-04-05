@@ -45,11 +45,11 @@ class FlowerCard extends StatelessWidget {
                 ),
                 SizedBox(height: 5,),
                 Text(
-                    flower.price.toString(),
-                    style: TextStyle(
-                        fontSize: 14.0,
-                        color: Colors.grey[600], fontWeight: FontWeight.bold
-                    ),
+                  flower.price.toString(),
+                  style: TextStyle(
+                      fontSize: 14.0,
+                      color: Colors.grey[600], fontWeight: FontWeight.bold
+                  ),
                 ),
                 ButtonBar(
                   alignment: MainAxisAlignment.spaceEvenly,
@@ -58,6 +58,7 @@ class FlowerCard extends StatelessWidget {
                       children: [
                         IconButton(
                             onPressed: () {
+                              //check whether the user whose trying edit item is the one who added the item
                               if(user?.uid == flower.id){
                                 Navigator.push(
                                     context,
@@ -73,21 +74,23 @@ class FlowerCard extends StatelessWidget {
                         ),
                         IconButton(
                             onPressed:(){
+                              //add item to cart
                               Provider.of<CartProvider>(context,listen: false).addItem(flower);
                               Fluttertoast.showToast(msg: 'Item added to cart');
                               Navigator.of(context).pushNamed(Shop.routeName);
 
-                              } ,
+                            } ,
 
                             icon: Icon(Icons.add_shopping_cart, color: Colors.teal,size: 30,)
                         ),
                         IconButton(
                             onPressed: () {
+                              //navigate to the selected flower items feedback list
                               Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => FeedbackGrid(),
-                                  )
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => FeedbackGrid(item_id: flower.id)
+                                ),
                               );
                             },
                             icon: Icon(Icons.comment, color: Colors.teal,size: 30,)

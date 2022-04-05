@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:green_app/pages/feedback_grid.dart';
 import 'package:image_picker/image_picker.dart';
@@ -13,10 +14,11 @@ import '../services/flower _item_database.dart';
 import '../services/review_database.dart';
 
 class EditFeedbackItem extends StatefulWidget {
- // static const String routeName = '/edit_item';
+  // static const String routeName = '/edit_item';
   FeedbackItem item;
+  String item_id;
 
-  EditFeedbackItem({Key? key, required this.item}) : super(key: key);
+  EditFeedbackItem({Key? key, required this.item, required this.item_id}) : super(key: key);
   @override
   _EditFeedbackItemState createState() => _EditFeedbackItemState();
 }
@@ -26,10 +28,13 @@ class _EditFeedbackItemState extends State<EditFeedbackItem> {
   final database = FeedbackDatabase();
   File? _pickedImage;
 
+  double rating = 0;
+
   String? _id;
   String? _name;
   String? _description;
   String? _url;
+  double? _rating;
 
   @override
   void initState() {
@@ -44,12 +49,13 @@ class _EditFeedbackItemState extends State<EditFeedbackItem> {
       _name = widget.item.name;
       _description = widget.item.description;
       _url = widget.item.url;
+      _rating =widget.item.rating;
     });
   }
 
   Future pickImage() async {
     try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      final image = await ImagePicker().pickImage(source: ImageSource.camera);
       if (image == null) return;
 
       final imageTemporary = File(image.path);
@@ -63,8 +69,9 @@ class _EditFeedbackItemState extends State<EditFeedbackItem> {
   }
 
   onUpdate() async {
+    String item_id = widget.item_id;
     if(_pickedImage == null && _url == null){
-      Fluttertoast.showToast(msg: 'Select an Image from Gallery');
+      Fluttertoast.showToast(msg: 'Select an Image from Camera');
     }
     else{
       try{
@@ -82,7 +89,7 @@ class _EditFeedbackItemState extends State<EditFeedbackItem> {
             print('Image URL: $_url');
           }
 
-          await database.updateData(_id!, _name!, _description!, _url!);
+          await database.updateData(item_id, _id!, _name!, _description!, _url!,_rating!);
         }
       } on Exception catch (error){
         print('Exception: $error');
@@ -91,7 +98,7 @@ class _EditFeedbackItemState extends State<EditFeedbackItem> {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => FeedbackGrid(),
+              builder: (context) => FeedbackGrid(item_id: item_id),
             )
         );
       }
@@ -99,8 +106,10 @@ class _EditFeedbackItemState extends State<EditFeedbackItem> {
   }
 
   onDelete() async {
+    String item_id = widget.item_id;
+
     try {
-      await database.deleteData(id: _id!);
+      await database.deleteData(item_id: item_id, id: _id!);
     } on Exception catch (e) {
       // TODO
     } finally {
@@ -108,7 +117,7 @@ class _EditFeedbackItemState extends State<EditFeedbackItem> {
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => FeedbackGrid(),
+            builder: (context) => FeedbackGrid(item_id: item_id),
           )
       );
     }
@@ -240,6 +249,28 @@ class _EditFeedbackItemState extends State<EditFeedbackItem> {
                         ),
                       ),
                       SizedBox(height: 20),
+
+                      Padding(padding:const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            Text(
+                              'Rating: $_rating',
+                              style: TextStyle(fontSize: 40,),
+                            ),
+                            SizedBox(height: 20),
+                            RatingBar.builder(
+                                initialRating: widget.item.rating,
+                                minRating: 1,
+                                itemBuilder: (context, _) => Icon(Icons.star, color: Colors.amber,),
+                                onRatingUpdate: (rating) => setState(() {
+
+                                  this.rating = rating;
+                                  if(rating != null) _rating = rating;
+
+                                })),
+                          ],
+                        ),
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

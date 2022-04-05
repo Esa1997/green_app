@@ -5,23 +5,20 @@ import 'package:green_app/models/feedback_item.dart';
 import 'package:green_app/pages/add_feedback.dart';
 import 'package:green_app/pages/edit_feedback.dart';
 import '../components/feeback_card.dart';
+import '../models/flower_item.dart';
 import '../services/review_database.dart';
-//import 'package:green_app/components/flower_card.dart';
-//import 'package:green_app/models/flower_item.dart';
-//import 'package:green_app/pages/add_flower_item.dart';
 
 
 class FeedbackGrid extends StatefulWidget {
- // static const String routeName= '/FlowerGrid';
-
-
+  String item_id;
+  FeedbackGrid({Key? key, required this.item_id}) : super(key: key);
   @override
   State<FeedbackGrid> createState() => _FeedbackGridState();
 }
 
 class _FeedbackGridState extends State<FeedbackGrid> {
   List<FeedbackItem> itemList = [];
-  List flowerItemList = [];
+  List feedItemList = [];
 
   @override
   void initState() {
@@ -32,7 +29,7 @@ class _FeedbackGridState extends State<FeedbackGrid> {
 
   fetchData() async {
     final database = FeedbackDatabase();
-    List<FeedbackItem>? results = await database.readData();
+    List<FeedbackItem>? results = await database.readData(widget.item_id);
 
     if(results == null){
       Fluttertoast.showToast(msg: 'Unable to retrieve data!');
@@ -50,17 +47,12 @@ class _FeedbackGridState extends State<FeedbackGrid> {
         centerTitle: true,
         title: Text('Feedback Gallery'),
         actions: [
-        //  IconButton(onPressed: (){Navigator.of(context).pushNamed(Shop.routeName);}, icon: Icon(Icons.shopping_cart))
+          //  IconButton(onPressed: (){Navigator.of(context).pushNamed(Shop.routeName);}, icon: Icon(Icons.shopping_cart))
         ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        // child: GridView.builder(
-        //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 1),
-        //     itemCount: itemList.length,
-        //     itemBuilder: (context, index) {
-        //       return FeedbackCard(flower: itemList.elementAt(index));
-        //     }),
+
         child: Column(
           children: [
             Flexible(
@@ -72,14 +64,16 @@ class _FeedbackGridState extends State<FeedbackGrid> {
                     return Card(
                       elevation: 2,
                       child: ListTile(
-                        title: Text(item.name),
-                        subtitle: Text(item.description),
+                        title: Text(item.description),
+                        subtitle: Text("Rating :"+ item.rating.toString()),
+
+
                         trailing: IconButton(icon: const Icon(Icons.edit, color: Colors.teal,),
                           onPressed: (){
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => EditFeedbackItem(item: item),
+                                  builder: (context) => EditFeedbackItem(item: item, item_id: widget.item_id),
                                 )
                             );
 
@@ -99,7 +93,7 @@ class _FeedbackGridState extends State<FeedbackGrid> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => AddFeedback(),
+                builder: (context) => AddFeedback(item_id: widget.item_id),
               )
           );
         },
