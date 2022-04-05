@@ -18,6 +18,11 @@ class CartProvider extends ChangeNotifier{
     notifyListeners();
   }
 
+  void clear(){
+    _items.clear();
+    notifyListeners();
+  }
+
   void removeItem(FlowerItem item){
     _items.remove(item);
     notifyListeners();

@@ -68,7 +68,8 @@ class _DeliveryCardState extends State<DeliveryCard> {
   }
 
   Widget _getWidget(String date) {
-    if(DateFormat('d-m-y').parse(date).isBefore(DateTime.now().add(const Duration(days: 2)))){
+    DateTime tempDate = DateFormat("dd-MM-yyyy").parse(date);
+    if(tempDate.isAfter(DateTime.now().add(const Duration(days: 2)))){
       return Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
@@ -91,7 +92,7 @@ class _DeliveryCardState extends State<DeliveryCard> {
           )
         ],
       );
-    }else{
+    }else {
       return Column();
     }
   }
@@ -102,51 +103,43 @@ class _DeliveryCardState extends State<DeliveryCard> {
       elevation: 5,
       clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20)
+          borderRadius: BorderRadius.circular(10)
       ),
+      color: (DateFormat("dd-MM-yyyy").parse(widget.delivery.date).isBefore(DateTime.now()))?
+      const Color(0xffd6d6d9): Colors.white,
       child: Stack(
         children: [
           Padding(
             padding: const EdgeInsets.all(10),
             child: Row(
               children: [
-                // Image.network(
-                //   widget.delivery.flowerUrl,
-                //   width: 70,
-                //   height: 70,
-                //   fit: BoxFit.fitHeight),
-                // const SizedBox(width: 10),
                 Expanded(
                   flex: 1,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        widget.delivery.receiverName,
+                      Text( "Receiver Name: ${widget.delivery.receiverName}",
                         style: const TextStyle(
                             fontSize: 20.0,
                             color: Colors.black, fontWeight: FontWeight.bold
                         ),
                       ),
                       const SizedBox(height: 5),
-                      Text(
-                        widget.delivery.receiverAddress,
+                      Text( "Receiver Address: ${widget.delivery.receiverAddress}",
                         style: TextStyle(
                             fontSize: 14.0,
                             color: Colors.grey[600], fontWeight: FontWeight.bold
                         ),
                       ),
                       SizedBox(height: 5),
-                      Text(
-                        widget.delivery.date,
+                      Text("Date: ${widget.delivery.date}",
                         style: TextStyle(
                             fontSize: 14.0,
                             color: Colors.grey[600], fontWeight: FontWeight.bold
                         ),
                       ),
                       SizedBox(height: 5),
-                      Text(
-                        widget.delivery.total,
+                      Text("Total: ${widget.delivery.total}",
                         style: TextStyle(
                             fontSize: 14.0,
                             color: Colors.grey[600], fontWeight: FontWeight.bold
