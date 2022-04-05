@@ -15,17 +15,6 @@ class DeliveryDatabase{
     DateTime now = DateTime.now();
     final documentReference = _collectionReference.doc(now.toString());
 
-    // List itemList = [];
-    // for (int i = 0; i < flowers.length; i++) {
-    //   itemList.add({
-    //     "id": flowers.toList()[i],
-    //     "name": flowers.toList()[i],
-    //     "description": flowers.toList()[i],
-    //     "url": flowers.toList()[i],
-    //     "price": flowers.toList()[i],
-    //   });
-    // }
-
     Map<String, dynamic> data = {
       'id': now.toString(),
       'senderId': user?.uid,
@@ -133,13 +122,12 @@ class DeliveryDatabase{
 
   }
 
-  Future updateData(String id, String senderName, String senderEmail, String receiverName,  String receiverAddress, String receiverPhone, String date) async {
+  Future updateData(String id, String senderName, String receiverName,  String receiverAddress, String receiverPhone, String date) async {
     final documentReference = _collectionReference.doc(id);
 
     Map<String, dynamic> data = {
       'id': id,
       'senderName': senderName,
-      'senderEmail': senderEmail,
       'receiverName': receiverName,
       'receiverAddress': receiverAddress,
       'receiverPhone': receiverPhone,

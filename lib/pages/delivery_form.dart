@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:green_app/services/delivery_database.dart';
-import '../models/flower_item.dart';
+import 'package:provider/provider.dart';
 import '../models/user_delivery.dart';
-import '../models/user_model.dart';
+import '../providers/cart_provider.dart';
 
 class DeliveryForm extends StatefulWidget {
   static const String routeName= '/deliveryForm';
@@ -288,6 +288,7 @@ class _DeliveryFormState extends State<DeliveryForm> {
     } on Exception catch (error){
       print('Exception: $error');
     } finally {
+      Provider.of<CartProvider>(context, listen: false).clear();
       Navigator.of(context).pop();
     }
 
@@ -309,45 +310,6 @@ class _DeliveryFormState extends State<DeliveryForm> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-              //   Card(
-              //   elevation: 5,
-              //   shape: RoundedRectangleBorder(
-              //       borderRadius: BorderRadius.circular(20)
-              //   ),
-              //   child: Padding(
-              //     padding: const EdgeInsets.all(10),
-              //     child: Row(
-              //       children: [
-              //         Image.network(
-              //           _flower!.url,
-              //           width: 100,
-              //           height: 100,
-              //           fit: BoxFit.fitHeight,),
-              //         const SizedBox(width: 20),
-              //         Column(
-              //           crossAxisAlignment: CrossAxisAlignment.start,
-              //           children: [
-              //             Text(
-              //               _flower!.name,
-              //               style: const TextStyle(
-              //                   fontSize: 20.0,
-              //                   color: Colors.black, fontWeight: FontWeight.bold,
-              //               ),
-              //             ),
-              //             const SizedBox(height: 5),
-              //             Text(
-              //               _flower!.price.toString(),
-              //               style: TextStyle(
-              //                   fontSize: 14.0,
-              //                   color: Colors.grey[600], fontWeight: FontWeight.bold
-              //               ),
-              //             ),
-              //           ],
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
                   const SizedBox(height: 20),
                   _buildSenderName(),
                   const SizedBox(height: 20),

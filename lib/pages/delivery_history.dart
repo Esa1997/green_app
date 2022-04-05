@@ -31,7 +31,7 @@ class _DeliveryHistoryState extends State<DeliveryHistory> {
       Fluttertoast.showToast(msg: 'Unable to retrieve data!');
     } else{
       setState(() {
-        itemList = results;
+        itemList = results.reversed.toList();
       });
     }
   }
