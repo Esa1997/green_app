@@ -34,6 +34,39 @@ class _UserDeliveryDetailsState extends State<UserDeliveryDetails> {
     getUserData();
   }
 
+  showAlertDialog(BuildContext context) {
+    Widget cancelButton = TextButton(
+      child: Text("Cancel"),
+      onPressed:  () {
+        //Navigator.pop(context);
+      },
+    );
+    Widget okButton = TextButton(
+      child: Text("Ok"),
+      onPressed:  () {
+        onDelete();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Alert"),
+      content: Text("Are you sure you want to delete?"),
+      actions: [
+        cancelButton,
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   void getUserData() async{
     loggedInUser = await database.getUserDeliveryDetails();
 
@@ -228,7 +261,9 @@ class _UserDeliveryDetailsState extends State<UserDeliveryDetails> {
                             .of(context)
                             .size
                             .width,
-                        onPressed: onDelete,
+                        onPressed: () {
+                          showAlertDialog(context);
+                        },
                         child: const Text(
                           "Delete",
                           textAlign: TextAlign.center,
