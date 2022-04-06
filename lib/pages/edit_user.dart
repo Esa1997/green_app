@@ -356,10 +356,16 @@ class _Edit_userState extends State<Edit_user> {
       // TODO
     } finally {
       // TODO
-      Navigator.push(
+//      Navigator.push(
+//          context,
+//          MaterialPageRoute(
+//            builder: (context) => RegistrationScreen(),
+//          )
+//      );
+         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => RegistrationScreen(),
+            builder: (context) => LoginScreen(),
           )
       );
     }
