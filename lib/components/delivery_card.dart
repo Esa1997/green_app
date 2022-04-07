@@ -67,6 +67,8 @@ class _DeliveryCardState extends State<DeliveryCard> {
     }
   }
 
+  //compare date and display icons accordingly
+  // [7]"DateTime class - dart:core library - Dart API", Api.flutter.dev, 2022. [Online]. Available: https://api.flutter.dev/flutter/dart-core/DateTime-class.html. [Accessed: 07- Apr- 2022]
   Widget _getWidget(String date) {
     DateTime tempDate = DateFormat("dd-MM-yyyy").parse(date);
     if(tempDate.isAfter(DateTime.now().add(const Duration(days: 2)))){
