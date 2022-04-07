@@ -38,7 +38,7 @@ class _UserDeliveryDetailsState extends State<UserDeliveryDetails> {
     Widget cancelButton = TextButton(
       child: Text("Cancel"),
       onPressed:  () {
-        //Navigator.pop(context);
+        Navigator.pop(context);
       },
     );
     Widget okButton = TextButton(
@@ -118,6 +118,8 @@ class _UserDeliveryDetailsState extends State<UserDeliveryDetails> {
         if (value == null || value.isEmpty) {
           return 'Email is Required';
         }
+        //email validation regex
+        // [1]"HTML Standard", Html.spec.whatwg.org, 2022. [Online]. Available: https://html.spec.whatwg.org/multipage/input.html#e-mail-state-%28type=email%29. [Accessed: 07- Apr- 2022]
         if (!RegExp(r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
             .hasMatch(value)) {
           return 'Please enter a valid email address';
@@ -207,6 +209,8 @@ class _UserDeliveryDetailsState extends State<UserDeliveryDetails> {
     }
   }
 
+  //Material button
+  // [2]"MaterialButton class - material library - Dart API", Api.flutter.dev, 2022. [Online]. Available: https://api.flutter.dev/flutter/material/MaterialButton-class.html. [Accessed: 07- Apr- 2022]
   @override
   Widget build(BuildContext context) {
     return WillPopScope(

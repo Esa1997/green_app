@@ -102,6 +102,8 @@ class _DeliveryFormState extends State<DeliveryForm> {
         if (value == null || value.isEmpty) {
           return 'Email is Required';
         }
+        //email validation regex
+        // [1]"HTML Standard", Html.spec.whatwg.org, 2022. [Online]. Available: https://html.spec.whatwg.org/multipage/input.html#e-mail-state-%28type=email%29. [Accessed: 07- Apr- 2022]
         if (!RegExp(r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
             .hasMatch(value)) {
           return 'Please enter a valid email address';
@@ -227,6 +229,8 @@ class _DeliveryFormState extends State<DeliveryForm> {
     );
   }
 
+  //date picker
+  // /[4]"showDatePicker function - material library - Dart API", Api.flutter.dev, 2022. [Online]. Available: https://api.flutter.dev/flutter/material/showDatePicker.html. [Accessed: 07- Apr- 2022]
   Widget _buildDate() {
     return GestureDetector(
       onTap: () {
@@ -294,6 +298,8 @@ class _DeliveryFormState extends State<DeliveryForm> {
 
   }
 
+  //form with validation
+  // [3]"Build a form with validation", Docs.flutter.dev, 2022. [Online]. Available: https://docs.flutter.dev/cookbook/forms/validation. [Accessed: 07- Apr- 2022]
   @override
   Widget build(BuildContext context) {
     return WillPopScope(

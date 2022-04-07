@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../models/delivery_item.dart';
 import '../models/user_delivery.dart';
 
+// [6]"Cloud Firestore | FlutterFire", Firebase.flutter.dev, 2022. [Online]. Available: https://firebase.flutter.dev/docs/firestore/usage/. [Accessed: 07- Apr- 2022]
 class DeliveryDatabase{
   static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   static final _collectionReference = _firestore.collection('DeliveryDetails');

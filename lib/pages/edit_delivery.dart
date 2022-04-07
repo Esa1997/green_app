@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:green_app/models/delivery_item.dart';
-import 'package:green_app/models/flower_item.dart';
 import 'package:green_app/pages/delivery_history.dart';
 
 import '../services/delivery_database.dart';
@@ -134,6 +133,8 @@ class _EditDeliveryState extends State<EditDelivery> {
     );
   }
 
+  //date picker
+  // /[4]"showDatePicker function - material library - Dart API", Api.flutter.dev, 2022. [Online]. Available: https://api.flutter.dev/flutter/material/showDatePicker.html. [Accessed: 07- Apr- 2022]
   Widget _buildDate() {
     return GestureDetector(
       onTap: () {
